@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="img/logo.jpeg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Chimalhua-CAN - Iniciar Sesión</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script>
+        function registrarCuenta() {
+                var email = document.getElementById("register-username").value;
+                var password = document.getElementById("register-password").value;
+                var nombre = document.getElementById("register-name").value;
+                
+                if (email && password && nombre) {
+                    var usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                    var usuarioExistente = usuarios.find(u => u.email === email);
+    
+                    if (usuarioExistente) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registro fallido',
+                            text: 'El correo electrónico ya está registrado',
+                            confirmButtonText: 'Reintentar',
+                            confirmButtonColor: '#d33'
+                        });
+                    } else {
+                        usuarios.push({ email: email, password: password, nombre: nombre });
+                        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registro exitoso',
+                            text: 'La cuenta ha sido creada',
+                            confirmButtonText: 'Continuar',
+                            confirmButtonColor: '#007bff'
+                        }).then(() => {
+                            window.location.href = "IniciarS.html";
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registro fallido',
+                        text: 'Por favor, completa todos los campos',
+                        confirmButtonText: 'Reintentar',
+                        confirmButtonColor: '#d33'
+                    });
+                }
+            }
+    
+            function iniciarSesion() {
+                var email = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+    
+                // Verificar usuarios predefinidos
+                if (email === "veterinario@example.com" && password === "contrasena1") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inicio de sesión exitoso',
+                        text: 'Has iniciado sesión como veterinario',
+                        confirmButtonText: 'Continuar',
+                        confirmButtonColor: '#007bff'
+                    }).then(() => {
+                        window.location.href = "vet.html";
+                    });
+                } else if (email === "asistente@example.com" && password === "contrasena2") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inicio de sesión exitoso',
+                        text: 'Has iniciado sesión como asistente',
+                        confirmButtonText: 'Continuar',
+                        confirmButtonColor: '#007bff'
+                    }).then(() => {
+                        window.location.href = "asis.html";
+                    });
+                } else if (email === "cliente@example.com" && password === "contrasena3") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inicio de sesión exitoso',
+                        text: 'Has iniciado sesión como Laura Martínez',
+                        confirmButtonText: 'Continuar',
+                        confirmButtonColor: '#007bff'
+                    }).then(() => {
+                        window.location.href = "clien.html";
+                    });
+                } else {
+                    // Verificar usuarios registrados en localStorage
+                    var usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                    var usuario = usuarios.find(u => u.email === email && u.password === password);
+    
+                    if (usuario) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Inicio de sesión exitoso',
+                            text: 'Has iniciado sesión como ' + usuario.nombre,
+                            confirmButtonText: 'Continuar',
+                            confirmButtonColor: '#007bff'
+                        }).then(() => {
+                            window.location.href = "sesionin.html";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de inicio de sesión',
+                            text: 'Correo electrónico o contraseña incorrectos',
+                            confirmButtonText: 'Reintentar',
+                            confirmButtonColor: '#d33'
+                        });
+                    }
+                }
+            }
+    
+            function mostrarFormularioRegistro() {
+                document.getElementById('form-login').style.display = 'none';
+                document.getElementById('form-register').style.display = 'block';
+            }
+    
+            function mostrarFormularioLogin() {
+                document.getElementById('form-register').style.display = 'none';
+                document.getElementById('form-login').style.display = 'block';
+            }
+        </script>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: white;
+            color: #333;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+        nav a .icon {
+            margin-right: 5px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input[type="email"],
+        .container input[type="password"],
+        .container input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .container a {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .container a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: left;
+            padding: 20px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .footer-info {
+            flex-basis: 30%;
+            margin-bottom: 10px;
+        }
+        .footer-social a{
+        text-decoration: none;
+        color: white;
+        }
+        .footer-social {
+            flex-basis: 30%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .footer-social img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .footer-social span {
+            margin-right: 20px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+            .footer-info, .footer-social {
+                flex-basis: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/logo.jpeg" alt="Chimalhua-CAN Logo">
+        </div>
+        <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
+    </header>
+    <nav>
+        <a href="index.html"><span class="icon">🏠</span>Inicio</a>
+        <a href="productos.html"><span class="icon">🛒</span>Productos</a>
+        <a href="serviciosindex.html"><span class="icon">🛠️</span>Servicios</a>
+    </nav>
+
+    <div class="container">
+        <div class="form-container" id="form-login">
+            <h2>Iniciar Sesión</h2>
+            <input type="email" id="username" placeholder="Correo electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button onclick="iniciarSesion()">Iniciar sesión</button>
+            <a href="#" onclick="mostrarFormularioRegistro()">Crear una cuenta</a>
+        </div>
+    
+        <div class="form-container" id="form-register" style="display: none;">
+            <h2>Registrar Cuenta</h2>
+            <input type="text" id="register-name" placeholder="Nombre" required>
+            <input type="email" id="register-username" placeholder="Correo electrónico" required>
+            <input type="password" id="register-password" placeholder="Contraseña" required>
+            <button onclick="registrarCuenta()">Registrar</button>
+            <a href="#" onclick="mostrarFormularioLogin()">Ya tengo una cuenta</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-info">
+            <p>Ubicación:<br>Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
+            <p>Horario:<br>Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.facebook.com/profile.php?id=100063788671062&mibextid=ZbWKwL" class="red-social"><i class="fab fa-facebook-f"></i><br><span>Consultorio Veterinario<br>Chimalhua-Can</span></a>
+            <a href="https://www.instagram.com/veterinaria_chimalhuacan?igsh=MXFrZnl6NWQ1aGVlbw==" class="red-social"><i class="fab fa-instagram"></i><br><span>Vet.Juan Carlos Ortega</span></a>
+            <a href="#" class="red-social"><i class="fab fa-whatsapp"></i><br><span>55-16-12-72-50</span></a>
+        </div>
+        <div>
+            <p>© 2024 Team Master. All Rights Reserved</p>
+        </div>
+    </footer>
+</body>
+</html>

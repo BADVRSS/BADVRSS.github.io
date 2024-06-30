@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultorio Veterinario "Chimalhua-CAN"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            color: #333;
+            padding: 10px 20px;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header .welcome {
+            display: flex;
+            align-items: center;
+        }
+
+        header .welcome img {
+            height: 30px;
+            margin-left: 10px;
+            border-radius: 50%;
+        }
+
+        nav {
+            background-color: #333;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px 0;
+        }
+
+        .container table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        .container table, .container th, .container td {
+            border: 1px solid #ddd;
+        }
+
+        .container th, .container td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .actions img {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            margin: 0 5px;
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 80%;
+            max-width: 500px;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .alert {
+            background-color: #f44336;
+            color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .alert.success {
+            background-color: #4CAF50;
+        }
+
+        .form-container {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-container input, .form-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        .show-form-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .show-form-button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            main {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/logo.jpeg" alt="Logo">
+        </div>
+        <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
+        <div class="welcome">
+            Bienvenido: Vet. Juan Carlos Ortega
+            <img src="img/perfil.jpeg" alt="Foto de perfil">
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="vet.html"><span class="icon">🏠</span>Inicio</a></li>
+            <li><a href="servet.html">Servicios</a></li>
+            <li><a href="inventvet.html">Inventario</a></li>
+            <li><a href="index.html">Cerrar Sesion</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="alert-container" id="alert-container"></div>
+
+        <button class="show-form-button" onclick="toggleForm()">Agendar Nueva Cita</button>
+
+        <div class="form-container" id="form-container">
+            <h2>Agendar Cita</h2>
+            <input type="date" id="fecha" placeholder="Fecha">
+            <input type="time" id="hora" placeholder="Hora">
+            <input type="text" id="cliente" placeholder="Nombre del Cliente">
+            <input type="text" id="mascota" placeholder="Nombre de la Mascota">
+            <input type="text" id="servicio" placeholder="Tipo de Servicio">
+            <button onclick="agregarCita()">Agregar Cita</button>
+        </div>
+
+        <div class="container">
+            <table id="citasTable">
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Nombre de la Mascota</th>
+                        <th>Tipo de Servicio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Citas serán añadidas aquí dinámicamente -->
+                    <tr>
+                        <td>1</td>
+                        <td>2024-03-20</td>
+                        <td>10:00 AM</td>
+                        <td>Juan Pérez</td>
+                        <td>Rex</td>
+                        <td>Corte de Pelo</td>
+                        <td class="actions">
+                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
+                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
+                        </td>
+                    </tr>
+                    <!-- Agrega más filas aquí para completar los 10 registros -->
+                    <tr>
+                        <td>2</td>
+                        <td>2024-03-20</td>
+                        <td>11:00 AM</td>
+                        <td>María López</td>
+                        <td>Firulais</td>
+                        <td>Vacunación</td>
+                        <td class="actions">
+                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
+                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2024-03-21</td>
+                        <td>09:00 AM</td>
+                        <td>Pedro Sánchez</td>
+                        <td>Manchas</td>
+                        <td>Consulta General</td>
+                        <td class="actions">
+                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
+                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        Consultorio Veterinario "Chimalhua-CAN" - Todos los derechos reservados &copy; 2024
+    </footer>
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModalEditar()">&times;</span>
+            <h2>Editar Cita</h2>
+            <input type="hidden" id="editIndex">
+            <input type="date" id="editFecha" placeholder="Fecha">
+            <input type="time" id="editHora" placeholder="Hora">
+            <input type="text" id="editCliente" placeholder="Nombre del Cliente">
+            <input type="text" id="editMascota" placeholder="Nombre de la Mascota">
+            <input type="text" id="editServicio" placeholder="Tipo de Servicio">
+            <button onclick="guardarCambios()">Guardar Cambios</button>
+        </div>
+    </div>
+
+    <script>
+        const citas = [
+            { folio: 1, fecha: "2024-03-20", hora: "10:00 AM", cliente: "Juan Pérez", mascota: "Rex", servicio: "Corte de Pelo" },
+            { folio: 2, fecha: "2024-03-20", hora: "11:00 AM", cliente: "María López", mascota: "Firulais", servicio: "Vacunación" },
+            { folio: 3, fecha: "2024-03-21", hora: "09:00 AM", cliente: "Pedro Sánchez", mascota: "Manchas", servicio: "Consulta General" }
+        ];
+
+        function toggleForm() {
+            const formContainer = document.getElementById('form-container');
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function agregarCita() {
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+            const cliente = document.getElementById('cliente').value;
+            const mascota = document.getElementById('mascota').value;
+            const servicio = document.getElementById('servicio').value;
+
+            if (fecha && hora && cliente && mascota && servicio) {
+                const folio = citas.length ? citas[citas.length - 1].folio + 1 : 1;
+                citas.push({ folio, fecha, hora, cliente, mascota, servicio });
+                mostrarAlerta('Cita agregada correctamente', 'success');
+                actualizarTabla();
+                toggleForm();
+            } else {
+                mostrarAlerta('Todos los campos son obligatorios', 'error');
+            }
+        }
+
+        function actualizarTabla() {
+            const tbody = document.querySelector('#citasTable tbody');
+            tbody.innerHTML = '';
+            citas.forEach(cita => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${cita.folio}</td>
+                    <td>${cita.fecha}</td>
+                    <td>${cita.hora}</td>
+                    <td>${cita.cliente}</td>
+                    <td>${cita.mascota}</td>
+                    <td>${cita.servicio}</td>
+                    <td class="actions">
+                        <img src="img/edit.png" alt="Reagendar" onclick="editarCita(${cita.folio})">
+                        <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(${cita.folio})">
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function mostrarAlerta(mensaje, tipo) {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert ${tipo}`;
+            alert.textContent = mensaje;
+            alert.style.display = 'block';
+            alertContainer.appendChild(alert);
+            setTimeout(() => {
+                alert.style.display = 'none';
+                alertContainer.removeChild(alert);
+            }, 3000);
+        }
+
+        function editarCita(folio) {
+            const cita = citas.find(c => c.folio === folio);
+            if (cita) {
+                document.getElementById('editIndex').value = folio;
+                document.getElementById('editFecha').value = cita.fecha;
+                document.getElementById('editHora').value = cita.hora;
+                document.getElementById('editCliente').value = cita.cliente;
+                document.getElementById('editMascota').value = cita.mascota;
+                document.getElementById('editServicio').value = cita.servicio;
+                document.getElementById('modalEditar').style.display = 'block';
+            }
+        }
+
+        function closeModalEditar() {
+            document.getElementById('modalEditar').style.display = 'none';
+        }
+
+        function guardarCambios() {
+            const folio = parseInt(document.getElementById('editIndex').value, 10);
+            const fecha = document.getElementById('editFecha').value;
+            const hora = document.getElementById('editHora').value;
+            const cliente = document.getElementById('editCliente').value;
+            const mascota = document.getElementById('editMascota').value;
+            const servicio = document.getElementById('editServicio').value;
+
+            if (folio && fecha && hora && cliente && mascota && servicio) {
+                const cita = citas.find(c => c.folio === folio);
+                if (cita) {
+                    cita.fecha = fecha;
+                    cita.hora = hora;
+                    cita.cliente = cliente;
+                    cita.mascota = mascota;
+                    cita.servicio = servicio;
+                    mostrarAlerta('Cita actualizada correctamente', 'success');
+                    actualizarTabla();
+                    closeModalEditar();
+                }
+            } else {
+                mostrarAlerta('Todos los campos son obligatorios', 'error');
+            }
+        }
+
+        function eliminarCita(folio) {
+            const index = citas.findIndex(c => c.folio === folio);
+            if (index !== -1) {
+                citas.splice(index, 1);
+                mostrarAlerta('Cita eliminada correctamente', 'success');
+                actualizarTabla();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarTabla();
+        });
+    </script>
+</body>
+</html>

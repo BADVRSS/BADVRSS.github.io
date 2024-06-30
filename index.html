@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="img/logo.jpeg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chimalhua-CAN - Inicio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: white;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+        }
+        header .logo img {
+            height: 50px;
+            margin-right: 10px;
+            
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .container {
+            max-width: 100%;
+            margin: auto;
+            padding: 0%;
+        }
+        .banner {
+            text-align: center;
+            margin: 0 0;
+            background-color: #333;
+        }
+        .banner img {
+            max-width: 100%;
+            height: auto;
+        }
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .service {
+            color: white;
+            background: #333;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            flex-basis: calc(25% - 20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .service img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            
+        }
+        .footer-info {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .copy{
+            text-align: right;
+        }
+        @media (max-width: 768px) {
+            .service {
+                flex-basis: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .service {
+                flex-basis: 100%;
+            }
+            nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/logo.jpeg" alt="Chimalhua-CAN Logo">
+        </div>
+        <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
+    </header>
+    <nav>
+        <a href="serviciosindex.html">Servicios</a>
+        <a href="productos.html"><span class="icon">🛒</span>Productos</a>
+        <a href="iniciarS.html"><span class="icon">🔒</span>Iniciar Sesión</a>
+    </nav>
+    <div class="container">
+        <div class="banner">
+            <img src="img/banner.png" alt="Banner">
+        </div>
+        <section id="services" class="services">
+            <div class="service">
+                <img src="img/sld1.jpeg" alt="Limpieza Dental">
+                <h3>Limpieza Dental</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld2.jpeg" alt="Revisión">
+                <h3>Revisión</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld3.jpeg" alt="Consultorio (Domicilio)">
+                <h3>Consultorio (Domicilio)</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld4.jpeg" alt="Hospitalización">
+                <h3>Hospitalización</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld5.jpeg" alt="Cirugías">
+                <h3>Cirugías</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld6.jpeg" alt="Urgencias">
+                <h3>Urgencias</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld7.jpeg" alt="Estética Canina">
+                <h3>Estética Canina</h3>
+            </div>
+            <div class="service">
+                <img src="img/sld8.jpeg" alt="Desparasitación">
+                <h3>Desparasitación</h3>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="footer-info">Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</div>
+        <div class="footer-info">Horario: Lunes a Sabado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</div>
+        <div class="copy">&copy; 2024 Team Master. All Rights Reserved</div>
+    </footer>
+</body>
+</html>

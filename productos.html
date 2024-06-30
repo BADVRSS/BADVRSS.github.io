@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chimalhua-CAN - Productos</title>
+    <link rel="icon" href="img/logo.jpeg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function mostrarAlerta() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Es necesario iniciar sesión',
+                text: 'Para realizar esta acción, por favor inicia sesión.',
+                confirmButtonText: 'OK'
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color:white;
+            color: #333;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        header .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+        nav a .icon {
+            margin-right: 5px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .product {
+            background: white;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            flex-basis: calc(25% - 20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product h3 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .product p {
+            font-size: 14px;
+            color: #555;
+        }
+        .product button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: left;
+            padding: 20px 10px;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-info {
+            flex-basis: 30%;
+            margin-bottom: 10px;
+        }
+        .footer-social {
+            flex-basis: 30%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .footer-social a{
+        text-decoration: none;
+        color: white;
+        padding: 1%;
+        }
+        .footer-social span {
+            margin-right: 25px;
+        }
+        @media (max-width: 768px) {
+            .product {
+                flex-basis: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .product {
+                flex-basis: 100%;
+            }
+            nav {
+                flex-direction: column;
+            }
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-info, .footer-social {
+                flex-basis: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/logo.jpeg" alt="Chimalhua-CAN Logo">
+        </div>
+        <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
+    </header>
+    <nav>
+        <a href="index.html"><span class="icon">🏠</span>Inicio</a>
+        <a href="serviciosindex.html"><span class="icon">🔧</span>Servicios</a>
+        <a href="iniciarS.html"><span class="icon">🔒</span>Iniciar Sesión</a>
+    </nav>
+    <div class="container">
+        <section id="products" class="products">
+            <div class="product">
+                <img src="img/producto1.jpeg" alt="Shampoo para perros">
+                <h3>Shampoo para perros</h3>
+                <p>$50.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto2.jpeg" alt="Alimento para hamster">
+                <h3>Alimento para hamster</h3>
+                <p>$70.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto3.jpeg" alt="Cama para gato">
+                <h3>Cama para gato</h3>
+                <p>$360.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto4.jpeg" alt="Alimento para perros">
+                <h3>Alimento para perros</h3>
+                <p>$650.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto5.jpeg" alt="Ropa y Accesorios">
+                <h3>Ropa y Accesorios</h3>
+                <p>$80.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto6.jpeg" alt="Camas para perros">
+                <h3>Camas para perros</h3>
+                <p>$160.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto7.jpg" alt="Mordedera para perro">
+                <h3>Mordedera para perro</h3>
+                <p>$85.00</p> 
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+            <div class="product">
+                <img src="img/producto8.jpg" alt="Camas para perros">
+                <h3>Camas para perros</h3>
+                <p>$360.00</p>
+                <button onclick="mostrarAlerta()">Agregar al carrito</button>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="footer-info">
+            <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
+            <p>Horario: Lunes a Sabado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.facebook.com/profile.php?id=100063788671062&mibextid=ZbWKwL" class="red-social"><i class="fab fa-facebook-f"></i><br><span>Consultorio Veterinario<br>Chimalhua-Can</span></a>
+            <a href="https://www.instagram.com/veterinaria_chimalhuacan?igsh=MXFrZnl6NWQ1aGVlbw==" class="red-social"><i class="fab fa-instagram"></i><br><span>Vet.Juan Carlos Ortega</span></a>
+            <a href="#" class="red-social"><i class="fab fa-whatsapp"></i><br><span>55-16-12-72-50</span></a>
+        </div>
+        <div>&copy; 2024 Team Master. All Rights Reserved</div>
+    </footer>
+</body>
+</html>
