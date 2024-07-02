@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultorio Veterinario "Chimalhua-CAN" - Agendar Cita</title>
+    <link rel="icon" href="img/logo.jpeg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -220,6 +220,24 @@
             text-decoration: none;
             cursor: pointer;
         }
+        /* Media queries para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .top-bar, .title-container, .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            nav a {
+                margin: 0 10px;
+                padding: 10px;
+            }
+            .form-container, .table-container {
+                padding: 10px;
+            }
+            .action-buttons {
+                display: flex;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -293,7 +311,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>001</td>
+                        <td>1</td>
                         <td>2024-06-01</td>
                         <td>10:00</td>
                         <td>Laura Martines</td>
@@ -304,7 +322,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>002</td>
+                        <td>2</td>
                         <td>2024-06-02</td>
                         <td>11:00</td>
                         <td>Laura Martines</td>
@@ -314,7 +332,6 @@
                             <button class="review" onclick="openModal('002')">Reseñar</button>
                         </td>
                     </tr>
-                    <!-- Añade más citas aquí -->
                 </tbody>
             </table>
         </div>
@@ -365,7 +382,7 @@
             const citasTable = document.getElementById('citasTable').getElementsByTagName('tbody')[0];
             const newRow = citasTable.insertRow();
 
-            const folio = citasTable.rows.length; // Generar folio automático
+            const folio = citasTable.rows.length; 
             newRow.innerHTML = `
                 <td>${folio}</td>
                 <td>${date}</td>
@@ -378,8 +395,8 @@
                 </td>
             `;
 
-            form.reset(); // Limpiar el formulario
-            toggleForm(); // Ocultar el formulario
+            form.reset(); 
+            toggleForm(); 
         }
 
         function openModal(folio) {
@@ -389,7 +406,7 @@
 
         function closeModal() {
             document.getElementById('reviewModal').style.display = 'none';
-            document.getElementById('reviewText').value = ''; // Limpiar el textarea
+            document.getElementById('reviewText').value = ''; 
         }
 
         function submitReview() {
@@ -397,8 +414,8 @@
             const review = document.getElementById('reviewText').value;
             if (review) {
                 alert(`Reseña recibida para el folio ${folio}: ${review}`);
-                // Aquí puedes agregar la lógica para guardar la reseña en el servidor
-                closeModal(); // Cerrar el modal
+                
+                closeModal(); 
             }
         }
     </script>
