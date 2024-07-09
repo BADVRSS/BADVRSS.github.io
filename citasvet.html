@@ -467,7 +467,7 @@
                     guardarCitasEnLocalStorage();
                     mostrarCitas();
                     closeModal();
-                    mostrarAlerta('Cita actualizada exitosamente', 'success');
+                    mostrarAlerta('Cita reagendada exitosamente', 'success');
                 } else {
                     mostrarAlerta('Por favor, complete todos los campos', 'error');
                 }
@@ -478,7 +478,7 @@
             citas.splice(index, 1);
             guardarCitasEnLocalStorage();
             mostrarCitas();
-            mostrarAlerta('Cita eliminada exitosamente', 'success');
+            mostrarAlerta('Cita cancelada exitosamente', 'success');
         }
 
         function finalizarCita(index) {
