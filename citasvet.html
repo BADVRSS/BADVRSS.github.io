@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultorio Veterinario "Chimalhua-CAN"</title>
+    <link rel="icon" href="img/logo.jpeg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -289,7 +289,14 @@
             <input type="time" id="hora" placeholder="Hora">
             <input type="text" id="cliente" placeholder="Nombre del Cliente">
             <input type="text" id="mascota" placeholder="Nombre de la Mascota">
-            <input type="text" id="servicio" placeholder="Tipo de Servicio">
+            <select id="servicio">
+                <option value="">Seleccione un servicio</option>
+                <option value="Corte de Pelo">Corte de Pelo</option>
+                <option value="Vacunación">Vacunación</option>
+                <option value="Consulta General">Consulta General</option>
+                <option value="Desparasitación">Desparasitación</option>
+                <option value="Cirugía">Cirugía</option>
+            </select>
             <button onclick="agregarCita()">Agregar Cita</button>
         </div>
 
@@ -308,76 +315,60 @@
                 </thead>
                 <tbody>
                     <!-- Citas serán añadidas aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <h2>Citas Finalizadas</h2>
+            <table id="citasFinalizadasTable">
+                <thead>
                     <tr>
-                        <td>1</td>
-                        <td>2024-03-20</td>
-                        <td>10:00 AM</td>
-                        <td>Juan Pérez</td>
-                        <td>Rex</td>
-                        <td>Corte de Pelo</td>
-                        <td class="actions">
-                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
-                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
-                        </td>
+                        <th>Folio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Nombre de la Mascota</th>
+                        <th>Tipo de Servicio</th>
                     </tr>
-                    <!-- Agrega más filas aquí para completar los 10 registros -->
-                    <tr>
-                        <td>2</td>
-                        <td>2024-03-20</td>
-                        <td>11:00 AM</td>
-                        <td>María López</td>
-                        <td>Firulais</td>
-                        <td>Vacunación</td>
-                        <td class="actions">
-                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
-                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>2024-03-21</td>
-                        <td>09:00 AM</td>
-                        <td>Pedro Sánchez</td>
-                        <td>Manchas</td>
-                        <td>Consulta General</td>
-                        <td class="actions">
-                            <img src="img/edit.png" alt="Reagendar" onclick="editarCita(this)">
-                            <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(this)">
-                        </td>
-                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Citas finalizadas serán añadidas aquí dinámicamente -->
                 </tbody>
             </table>
         </div>
     </main>
 
     <footer>
-        Consultorio Veterinario "Chimalhua-CAN" - Todos los derechos reservados &copy; 2024
+        <p>© 2024 Team Master. All Rights Reserved</p>
     </footer>
 
-    <div id="modalEditar" class="modal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModalEditar()">&times;</span>
-            <h2>Editar Cita</h2>
-            <input type="hidden" id="editIndex">
-            <input type="date" id="editFecha" placeholder="Fecha">
-            <input type="time" id="editHora" placeholder="Hora">
-            <input type="text" id="editCliente" placeholder="Nombre del Cliente">
-            <input type="text" id="editMascota" placeholder="Nombre de la Mascota">
-            <input type="text" id="editServicio" placeholder="Tipo de Servicio">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Reagendar Cita</h2>
+            <input type="date" id="modalFecha" placeholder="Fecha">
+            <input type="time" id="modalHora" placeholder="Hora">
+            <select id="modalServicio">
+                <option value="">Seleccione un servicio</option>
+                <option value="Corte de Pelo">Corte de Pelo</option>
+                <option value="Vacunación">Vacunación</option>
+                <option value="Consulta General">Consulta General</option>
+                <option value="Desparasitación">Desparasitación</option>
+                <option value="Cirugía">Cirugía</option>
+            </select>
             <button onclick="guardarCambios()">Guardar Cambios</button>
         </div>
     </div>
 
     <script>
-        const citas = [
-            { folio: 1, fecha: "2024-03-20", hora: "10:00 AM", cliente: "Juan Pérez", mascota: "Rex", servicio: "Corte de Pelo" },
-            { folio: 2, fecha: "2024-03-20", hora: "11:00 AM", cliente: "María López", mascota: "Firulais", servicio: "Vacunación" },
-            { folio: 3, fecha: "2024-03-21", hora: "09:00 AM", cliente: "Pedro Sánchez", mascota: "Manchas", servicio: "Consulta General" }
-        ];
+        let citas = JSON.parse(localStorage.getItem('citas')) || [];
+        let citasFinalizadas = JSON.parse(localStorage.getItem('citasFinalizadas')) || [];
+        let citaAEditar = null;
 
         function toggleForm() {
             const formContainer = document.getElementById('form-container');
-            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+            formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
         }
 
         function agregarCita() {
@@ -388,21 +379,32 @@
             const servicio = document.getElementById('servicio').value;
 
             if (fecha && hora && cliente && mascota && servicio) {
-                const folio = citas.length ? citas[citas.length - 1].folio + 1 : 1;
-                citas.push({ folio, fecha, hora, cliente, mascota, servicio });
-                mostrarAlerta('Cita agregada correctamente', 'success');
-                actualizarTabla();
+                const nuevaCita = {
+                    folio: citas.length + 1,
+                    fecha,
+                    hora,
+                    cliente,
+                    mascota,
+                    servicio
+                };
+
+                citas.push(nuevaCita);
+                guardarCitasEnLocalStorage();
+                mostrarCitas();
+                mostrarAlerta('Cita agregada exitosamente', 'success');
                 toggleForm();
             } else {
-                mostrarAlerta('Todos los campos son obligatorios', 'error');
+                mostrarAlerta('Por favor, complete todos los campos', 'error');
             }
         }
 
-        function actualizarTabla() {
-            const tbody = document.querySelector('#citasTable tbody');
-            tbody.innerHTML = '';
-            citas.forEach(cita => {
+        function mostrarCitas() {
+            const citasTableBody = document.querySelector('#citasTable tbody');
+            citasTableBody.innerHTML = '';
+
+            citas.forEach((cita, index) => {
                 const row = document.createElement('tr');
+
                 row.innerHTML = `
                     <td>${cita.folio}</td>
                     <td>${cita.fecha}</td>
@@ -411,11 +413,13 @@
                     <td>${cita.mascota}</td>
                     <td>${cita.servicio}</td>
                     <td class="actions">
-                        <img src="img/edit.png" alt="Reagendar" onclick="editarCita(${cita.folio})">
-                        <img src="img/delete.png" alt="Cancelar" onclick="eliminarCita(${cita.folio})">
+                        <img src="img/edit-icon.png" alt="Editar" onclick="editarCita(${index})">
+                        <img src="img/delete-icon.png" alt="Eliminar" onclick="eliminarCita(${index})">
+                        <img src="img/check-icon.png" alt="Finalizar" onclick="finalizarCita(${index})">
                     </td>
                 `;
-                tbody.appendChild(row);
+
+                citasTableBody.appendChild(row);
             });
         }
 
@@ -423,68 +427,97 @@
             const alertContainer = document.getElementById('alert-container');
             const alert = document.createElement('div');
             alert.className = `alert ${tipo}`;
-            alert.textContent = mensaje;
+            alert.innerText = mensaje;
             alert.style.display = 'block';
+
             alertContainer.appendChild(alert);
+
             setTimeout(() => {
                 alert.style.display = 'none';
                 alertContainer.removeChild(alert);
             }, 3000);
         }
 
-        function editarCita(folio) {
-            const cita = citas.find(c => c.folio === folio);
-            if (cita) {
-                document.getElementById('editIndex').value = folio;
-                document.getElementById('editFecha').value = cita.fecha;
-                document.getElementById('editHora').value = cita.hora;
-                document.getElementById('editCliente').value = cita.cliente;
-                document.getElementById('editMascota').value = cita.mascota;
-                document.getElementById('editServicio').value = cita.servicio;
-                document.getElementById('modalEditar').style.display = 'block';
-            }
+        function editarCita(index) {
+            citaAEditar = index;
+            const cita = citas[index];
+
+            document.getElementById('modalFecha').value = cita.fecha;
+            document.getElementById('modalHora').value = cita.hora;
+            document.getElementById('modalServicio').value = cita.servicio;
+
+            document.getElementById('modal').style.display = 'block';
         }
 
-        function closeModalEditar() {
-            document.getElementById('modalEditar').style.display = 'none';
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
         }
 
         function guardarCambios() {
-            const folio = parseInt(document.getElementById('editIndex').value, 10);
-            const fecha = document.getElementById('editFecha').value;
-            const hora = document.getElementById('editHora').value;
-            const cliente = document.getElementById('editCliente').value;
-            const mascota = document.getElementById('editMascota').value;
-            const servicio = document.getElementById('editServicio').value;
+            if (citaAEditar !== null) {
+                const fecha = document.getElementById('modalFecha').value;
+                const hora = document.getElementById('modalHora').value;
+                const servicio = document.getElementById('modalServicio').value;
 
-            if (folio && fecha && hora && cliente && mascota && servicio) {
-                const cita = citas.find(c => c.folio === folio);
-                if (cita) {
-                    cita.fecha = fecha;
-                    cita.hora = hora;
-                    cita.cliente = cliente;
-                    cita.mascota = mascota;
-                    cita.servicio = servicio;
-                    mostrarAlerta('Cita actualizada correctamente', 'success');
-                    actualizarTabla();
-                    closeModalEditar();
+                if (fecha && hora && servicio) {
+                    citas[citaAEditar].fecha = fecha;
+                    citas[citaAEditar].hora = hora;
+                    citas[citaAEditar].servicio = servicio;
+
+                    guardarCitasEnLocalStorage();
+                    mostrarCitas();
+                    closeModal();
+                    mostrarAlerta('Cita actualizada exitosamente', 'success');
+                } else {
+                    mostrarAlerta('Por favor, complete todos los campos', 'error');
                 }
-            } else {
-                mostrarAlerta('Todos los campos son obligatorios', 'error');
             }
         }
 
-        function eliminarCita(folio) {
-            const index = citas.findIndex(c => c.folio === folio);
-            if (index !== -1) {
-                citas.splice(index, 1);
-                mostrarAlerta('Cita eliminada correctamente', 'success');
-                actualizarTabla();
-            }
+        function eliminarCita(index) {
+            citas.splice(index, 1);
+            guardarCitasEnLocalStorage();
+            mostrarCitas();
+            mostrarAlerta('Cita eliminada exitosamente', 'success');
+        }
+
+        function finalizarCita(index) {
+            const citaFinalizada = citas.splice(index, 1)[0];
+            citasFinalizadas.push(citaFinalizada);
+            guardarCitasEnLocalStorage();
+            mostrarCitas();
+            mostrarCitasFinalizadas();
+            mostrarAlerta('Cita finalizada exitosamente', 'success');
+        }
+
+        function mostrarCitasFinalizadas() {
+            const citasFinalizadasTableBody = document.querySelector('#citasFinalizadasTable tbody');
+            citasFinalizadasTableBody.innerHTML = '';
+
+            citasFinalizadas.forEach((cita, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${cita.folio}</td>
+                    <td>${cita.fecha}</td>
+                    <td>${cita.hora}</td>
+                    <td>${cita.cliente}</td>
+                    <td>${cita.mascota}</td>
+                    <td>${cita.servicio}</td>
+                `;
+
+                citasFinalizadasTableBody.appendChild(row);
+            });
+        }
+
+        function guardarCitasEnLocalStorage() {
+            localStorage.setItem('citas', JSON.stringify(citas));
+            localStorage.setItem('citasFinalizadas', JSON.stringify(citasFinalizadas));
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            actualizarTabla();
+            mostrarCitas();
+            mostrarCitasFinalizadas();
         });
     </script>
 </body>
