@@ -69,10 +69,10 @@
         .form-container {
             max-width: 600px;
             margin: auto;
-            display: none; /* Oculto por defecto */
+            display: none;
         }
         .form-container.active {
-            display: block; /* Mostrar cuando se active */
+            display: block;
         }
         .form-group {
             margin-bottom: 15px;
@@ -135,6 +135,10 @@
             background-color: #28a745;
             color: #fff;
         }
+        .action-buttons .conclude {
+            background-color: #f39c12;
+            color: #fff;
+        }
         footer {
             background-color: #333;
             color: #fff;
@@ -162,9 +166,8 @@
             cursor: pointer;
             font-size: 16px;
         }
-        /* Estilos para el modal */
         .modal {
-            display: none; /* Oculto por defecto */
+            display: none;
             position: fixed;
             z-index: 1;
             left: 0;
@@ -220,7 +223,21 @@
             text-decoration: none;
             cursor: pointer;
         }
-        /* Media queries para pantallas pequeñas */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #f44336;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+        .alert.success {
+            background-color: #4CAF50;
+        }
         @media (max-width: 600px) {
             .top-bar, .title-container, .user-info {
                 flex-direction: column;
@@ -251,7 +268,7 @@
             </div>
             <div class="user-info">
                 <span>Bienvenida: Laura Martines</span>
-                <img src="img/cliente.jpeg" alt="Maria Garcia">
+                <img src="img/cliente.jpeg" alt="Laura Martines">
             </div>
         </div>
         <nav>
@@ -272,10 +289,6 @@
                 <div class="form-group">
                     <label for="time">Hora:</label>
                     <input type="time" id="time" name="time" required>
-                </div>
-                <div class="form-group">
-                    <label for="client-name">Nombre del Cliente:</label>
-                    <input type="text" id="client-name" name="client-name" required>
                 </div>
                 <div class="form-group">
                     <label for="pet-name">Nombre de la Mascota:</label>
@@ -319,6 +332,7 @@
                         <td>Consulta</td>
                         <td class="action-buttons">
                             <button class="review" onclick="openModal('001')">Reseñar</button>
+                           
                         </td>
                     </tr>
                     <tr>
@@ -330,8 +344,27 @@
                         <td>Vacunación</td>
                         <td class="action-buttons">
                             <button class="review" onclick="openModal('002')">Reseñar</button>
+                            
                         </td>
                     </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-container" id="concludedAppointments">
+            <h2>Citas Concluidas</h2>
+            <table id="concluidasTable">
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Nombre de la Mascota</th>
+                        <th>Tipo de Servicio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se insertarán las citas concluidas -->
                 </tbody>
             </table>
         </div>
@@ -365,6 +398,9 @@
         </div>
     </div>
 
+    <!-- Alertas -->
+    <div id="alertContainer" class="alert"></div>
+
     <script>
         function toggleForm() {
             const formContainer = document.getElementById('formContainer');
@@ -375,28 +411,42 @@
             const form = document.getElementById('agendarCitaForm');
             const date = form.date.value;
             const time = form.time.value;
-            const clientName = form['client-name'].value;
             const petName = form['pet-name'].value;
             const serviceType = form['service-type'].value;
 
+            // Obtener la tabla de citas agendadas
             const citasTable = document.getElementById('citasTable').getElementsByTagName('tbody')[0];
-            const newRow = citasTable.insertRow();
 
-            const folio = citasTable.rows.length; 
+            // Validar que no se agende en fechas pasadas
+            const today = new Date();
+            const selectedDate = new Date(date);
+            if (selectedDate < today) {
+                showAlert('No se puede agendar en fechas pasadas', 'error');
+                return;
+            }
+
+            // Agregar la cita a la tabla de citas agendadas
+            const newRow = citasTable.insertRow();
+            const folio = citasTable.rows.length; // Generar un folio único (aunque no ideal para producción)
             newRow.innerHTML = `
                 <td>${folio}</td>
                 <td>${date}</td>
                 <td>${time}</td>
-                <td>${clientName}</td>
+                <td>Laura Martines</td>
                 <td>${petName}</td>
                 <td>${serviceType}</td>
                 <td class="action-buttons">
                     <button class="review" onclick="openModal('${folio}')">Reseñar</button>
+                    <button class="conclude" onclick="concluirCita('${folio}')">Concluir</button>
                 </td>
             `;
 
-            form.reset(); 
-            toggleForm(); 
+            // Mostrar mensaje de éxito
+            showAlert('Cita agendada correctamente', 'success');
+
+            // Limpiar formulario y ocultar contenedor de formulario
+            form.reset();
+            toggleForm();
         }
 
         function openModal(folio) {
@@ -406,18 +456,51 @@
 
         function closeModal() {
             document.getElementById('reviewModal').style.display = 'none';
-            document.getElementById('reviewText').value = ''; 
+            document.getElementById('reviewText').value = '';
         }
 
         function submitReview() {
             const folio = document.getElementById('modalFolio').innerText;
             const review = document.getElementById('reviewText').value;
             if (review) {
-                alert(`Reseña recibida para el folio ${folio}: ${review}`);
-                
-                closeModal(); 
+                showAlert(`Reseña recibida para el folio ${folio}: ${review}`, 'success');
+                closeModal();
+            } else {
+                showAlert('Por favor, ingrese una reseña', 'error');
             }
+        }
+
+        function concluirCita(folio) {
+            // Obtener la fila de la cita
+            const citaRow = document.querySelector(`#citasTable tbody tr:nth-child(${folio})`);
+            const citaData = citaRow.getElementsByTagName('td');
+
+            // Clonar la fila para agregarla a la tabla de citas concluidas
+            const concluidasTable = document.getElementById('concluidasTable').getElementsByTagName('tbody')[0];
+            const newRow = concluidasTable.insertRow();
+            for (let i = 0; i < citaData.length - 1; i++) { // Excluye el último td con botones de acción
+                const cell = newRow.insertCell(i);
+                cell.textContent = citaData[i].textContent;
+            }
+
+            // Eliminar la fila de la tabla de citas agendadas
+            citaRow.remove();
+
+            // Mostrar mensaje de éxito
+            showAlert(`Cita con folio ${folio} concluida`, 'success');
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.textContent = message;
+            alertContainer.className = `alert ${type}`;
+            alertContainer.style.display = 'block';
+
+            setTimeout(() => {
+                alertContainer.style.display = 'none';
+            }, 3000);
         }
     </script>
 </body>
 </html>
+
