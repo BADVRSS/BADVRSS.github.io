@@ -115,6 +115,66 @@
             color: #fff;
             text-decoration: none;
         }
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .profile-card {
+            padding: 20px;
+        }
+        .profile-image img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid #007aff;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .profile-info p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #666;
+        }
+        button {
+            background-color: #007aff;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        .additional-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .additional-info p {
+            margin: 5px 0;
+        }
+        .additional-info ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .additional-info ul li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -126,9 +186,9 @@
             <div class="title-container">
                 <div class="title">Consultorio Veterinario "Chimalhua-CAN"</div>
             </div>
-            <div class="user-info">
+            <div class="user-info" id="profile-button">
                 <span>Bienvenida:Laura Martines</span>
-                <img src="img/cliente.jpeg" alt="Maria Garcia">
+                <img src="img/cliente.jpeg" alt="Laura Martínez">
             </div>
         </div>
         <nav>
@@ -155,6 +215,30 @@
             <!-- Añade más productos aquí -->
         </section>
     </main>
+
+    <div class="profile-container" id="profile-container">
+        <div class="profile-card">
+            <div class="profile-image">
+                <img src="img/cliente.jpeg" alt="Profile Image">
+            </div>
+            <div class="profile-info">
+                <h1>Laura Martínez</h1>
+                <p>Veterinary Consultant</p>
+                <button id="edit-button">Edit Profile</button>
+            </div>
+            <div class="additional-info">
+                <p><strong>Correo electrónico:</strong> <span id="email">laura.martinez@example.com</span></p>
+                <p><strong>Número de teléfono:</strong> <span id="phone">+52 123 456 7890</span></p>
+                <p><strong>Mascotas:</strong></p>
+                <ul id="pet-list">
+                    <li>Rex - Perro</li>
+                    <li>Whiskers - Gato</li>
+                </ul>
+                <button id="history-button">Historia</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
         <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
@@ -165,5 +249,101 @@
         </div>
         <p>&copy; 2024 Team Master. All Rights Reserved</p>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+        document.getElementById('profile-button').addEventListener('click', function() {
+            var profileContainer = document.getElementById('profile-container');
+            profileContainer.style.display = "block";
+        });
+
+        document.addEventListener('click', function(event) {
+            var profileContainer = document.getElementById('profile-container');
+            var profileButton = document.getElementById('profile-button');
+            if (!profileContainer.contains(event.target) && !profileButton.contains(event.target)) {
+                profileContainer.style.display = "none";
+            }
+        });
+
+        document.getElementById('history-button').onclick = function() {
+            swal({
+                title: "Historia de Citas",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<ul>' +
+                            '<li>Fecha: 2024-01-15 | Nombre: Laura Martínez | Hora: 10:00 AM | Mascota: Rex | Servicio: Vacunación</li>' +
+                            '<li>Fecha: 2024-02-20 | Nombre: Laura Martínez | Hora: 11:00 AM | Mascota: Whiskers | Servicio: Chequeo General</li>' +
+                            '<li>Fecha: 2024-03-05 | Nombre: Laura Martínez | Hora: 02:00 PM | Mascota: Rex | Servicio: Desparasitación</li>' +
+                        '</ul>'
+                    }
+                },
+                buttons: {
+                    confirm: {
+                        text: "Cerrar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
+                }
+            });
+        };
+
+        document.getElementById('edit-button').addEventListener('click', function() {
+            swal({
+                title: "Editar Perfil",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<form id="edit-profile-form">' +
+                            '<label for="new-email">Correo Electrónico:</label>' +
+                            '<input type="email" id="new-email" name="new-email" value="laura.martinez@example.com"><br>' +
+                            '<label for="new-phone">Número de Teléfono:</label>' +
+                            '<input type="tel" id="new-phone" name="new-phone" value="+52 123 456 7890"><br>' +
+                            '<label for="new-pet">Nueva Mascota:</label>' +
+                            '<input type="text" id="new-pet" name="new-pet" placeholder="Nombre - Tipo"><br>' +
+                        '</form>'
+                    }
+                },
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Guardar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
+                }
+            }).then((value) => {
+                if (value) {
+                    var newEmail = document.getElementById('new-email').value;
+                    var newPhone = document.getElementById('new-phone').value;
+                    var newPet = document.getElementById('new-pet').value;
+
+                    document.getElementById('email').innerText = newEmail;
+                    document.getElementById('phone').innerText = newPhone;
+
+                    if (newPet) {
+                        var petList = document.getElementById('pet-list');
+                        var newPetItem = document.createElement('li');
+                        newPetItem.innerText = newPet;
+                        petList.appendChild(newPetItem);
+                    }
+
+                    swal("¡Perfil Actualizado!", {
+                        icon: "success",
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
