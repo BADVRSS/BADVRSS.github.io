@@ -255,6 +255,64 @@
                 margin: 10px 0;
             }
         }
+
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-container .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-container .profile-info h1 {
+            margin: 0;
+        }
+
+        .profile-container .profile-info p {
+            margin: 5px 0;
+        }
+
+        .profile-container .additional-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .profile-container .additional-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-container .additional-info ul li {
+            margin: 5px 0;
+        }
+
+        .profile-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -263,7 +321,7 @@
             <img src="img/logo.jpeg" alt="Logo">
         </div>
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
-        <div class="welcome">
+        <div class="welcome" id="profile-button">
             Bienvenido: Vet. Juan Carlos Ortega
             <img src="img/perfil.jpeg" alt="Foto de perfil">
         </div>
@@ -340,7 +398,7 @@
     </main>
 
     <footer>
-        <p>© 2024 Team Master. All Rights Reserved</p>
+        <p>&copy; 2024 Consultorio Veterinario "Chimalhua-CAN". Todos los derechos reservados.</p>
     </footer>
 
     <div id="modal" class="modal">
@@ -361,7 +419,37 @@
         </div>
     </div>
 
+    <div class="profile-container" id="profile-container">
+        <div class="profile-image">
+            <img src="img/perfil.jpeg" alt="Foto de perfil">
+        </div>
+        <div class="profile-info">
+            <h1>Juan Carlos Ortega</h1>
+            <p>Veterinario</p>
+        </div>
+        <div class="additional-info">
+            <h3>Información Adicional</h3>
+            <ul>
+                <li><strong>Correo:</strong> juan.ortega@example.com</li>
+                <li><strong>Teléfono:</strong> 123-456-7890</li>
+                <li><strong>Dirección:</strong> Calle Falsa 123, Ciudad</li>
+            </ul>
+        </div>
+        <button onclick="cerrarPerfil()">Cerrar</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
+        
     <script>
+        document.getElementById('profile-button').addEventListener('click', function() {
+            document.getElementById('profile-container').style.display = 'block';
+        });
+
+        function cerrarPerfil() {
+            document.getElementById('profile-container').style.display = 'none';
+        }
+
         let citas = JSON.parse(localStorage.getItem('citas')) || [];
         let citasFinalizadas = JSON.parse(localStorage.getItem('citasFinalizadas')) || [];
         let citaAEditar = null;
@@ -415,7 +503,7 @@
                     <td class="actions">
                         <img src="img/edit.png" alt="Editar" onclick="editarCita(${index})">
                         <img src="img/delete.png" alt="Eliminar" onclick="eliminarCita(${index})">
-                        <img src="img/logo.jpeg" alt="Finalizar" onclick="finalizarCita(${index})">
+                        <img src="img/check-icon.png" alt="Finalizar" onclick="finalizarCita(${index})">
                     </td>
                 `;
 
@@ -467,7 +555,7 @@
                     guardarCitasEnLocalStorage();
                     mostrarCitas();
                     closeModal();
-                    mostrarAlerta('Cita reagendada exitosamente', 'success');
+                    mostrarAlerta('Cita actualizada exitosamente', 'success');
                 } else {
                     mostrarAlerta('Por favor, complete todos los campos', 'error');
                 }
@@ -478,7 +566,7 @@
             citas.splice(index, 1);
             guardarCitasEnLocalStorage();
             mostrarCitas();
-            mostrarAlerta('Cita cancelada exitosamente', 'success');
+            mostrarAlerta('Cita eliminada exitosamente', 'success');
         }
 
         function finalizarCita(index) {
