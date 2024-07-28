@@ -131,12 +131,12 @@
             border-radius: 5px;
             font-size: 14px;
         }
-        .action-buttons .review {
+        .action-buttons .reagendar {
             background-color: #28a745;
             color: #fff;
         }
-        .action-buttons .conclude {
-            background-color: #f39c12;
+        .action-buttons .cancelar {
+            background-color: #f44336;
             color: #fff;
         }
         footer {
@@ -255,6 +255,67 @@
                 justify-content: center;
             }
         }
+
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .profile-card {
+            padding: 20px;
+        }
+        .profile-image img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid #007aff;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .profile-info p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #666;
+        }
+        button {
+            background-color: #007aff;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        .additional-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .additional-info p {
+            margin: 5px 0;
+        }
+        .additional-info ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .additional-info ul li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -266,9 +327,9 @@
             <div class="title-container">
                 <div class="title">Consultorio Veterinario "Chimalhua-CAN"</div>
             </div>
-            <div class="user-info">
-                <span>Bienvenida: Laura Martines</span>
-                <img src="img/cliente.jpeg" alt="Laura Martines">
+            <div class="user-info" id="profile-button">
+                <span>Bienvenida:Laura Martines</span>
+                <img src="img/cliente.jpeg" alt="Laura Martínez">
             </div>
         </div>
         <nav>
@@ -299,208 +360,319 @@
                     <select id="service-type" name="service-type" required>
                         <option value="consulta">Consulta</option>
                         <option value="vacunacion">Vacunación</option>
-                        <option value="cirugia">Cirugía</option>
+                        <option value="desparasitacion">Desparasitación</option>
                         <option value="estetica">Estética</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="button" onclick="agendarCita()">Agendar</button>
+                    <button type="submit">Agendar</button>
                 </div>
             </form>
         </div>
         <div class="table-container">
-            <h2>Citas Previas</h2>
-            <table id="citasTable">
+            <h2>Citas Agendadas</h2>
+            <table>
                 <thead>
                     <tr>
-                        <th>Folio</th>
                         <th>Fecha</th>
                         <th>Hora</th>
-                        <th>Nombre del Cliente</th>
                         <th>Nombre de la Mascota</th>
                         <th>Tipo de Servicio</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2024-06-01</td>
-                        <td>10:00</td>
-                        <td>Laura Martines</td>
-                        <td>Firulais</td>
-                        <td>Consulta</td>
-                        <td class="action-buttons">
-                            <button class="review" onclick="openModal('001')">Reseñar</button>
-                           
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2024-06-02</td>
-                        <td>11:00</td>
-                        <td>Laura Martines</td>
-                        <td>Firulais</td>
-                        <td>Vacunación</td>
-                        <td class="action-buttons">
-                            <button class="review" onclick="openModal('002')">Reseñar</button>
-                            
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="table-container" id="concludedAppointments">
-            <h2>Citas Concluidas</h2>
-            <table id="concluidasTable">
-                <thead>
-                    <tr>
-                        <th>Folio</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Nombre del Cliente</th>
-                        <th>Nombre de la Mascota</th>
-                        <th>Tipo de Servicio</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se insertarán las citas concluidas -->
+                <tbody id="citasTableBody">
+                    <!-- Las citas agendadas se añadirán aquí dinámicamente -->
                 </tbody>
             </table>
         </div>
     </main>
-    <footer>
-        <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
-        <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
-        <div class="social-media">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">WhatsApp</a>
-        </div>
-        <p>&copy; 2024 Team Master. All Rights Reserved</p>
-    </footer>
 
-    <!-- Modal para la reseña -->
-    <div id="reviewModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Reseñar Cita</h2>
+    <div class="profile-container" id="profile-container">
+        <div class="profile-card">
+            <div class="profile-image">
+                <img src="img/cliente.jpeg" alt="Profile Image">
             </div>
-            <div class="modal-body">
-                <p>Escribe una reseña para la cita con folio: <span id="modalFolio"></span></p>
-                <textarea id="reviewText" rows="5" style="width: 100%;"></textarea>
+            <div class="profile-info">
+                <h1>Laura Martínez</h1>
+                <p>Veterinary Consultant</p>
+                <button id="edit-button">Edit Profile</button>
             </div>
-            <div class="modal-footer">
-                <button class="cancel" onclick="closeModal()">Cancelar</button>
-                <button class="submit" onclick="submitReview()">Enviar</button>
+            <div class="additional-info">
+                <p><strong>Correo electrónico:</strong> <span id="email">laura.martinez@example.com</span></p>
+                <p><strong>Número de teléfono:</strong> <span id="phone">+52 123 456 7890</span></p>
+                <p><strong>Mascotas:</strong></p>
+                <ul id="pet-list">
+                    <li>Rex - Perro</li>
+                    <li>Whiskers - Gato</li>
+                </ul>
+                <button id="history-button">Historia</button>
             </div>
         </div>
     </div>
 
-    <!-- Alertas -->
-    <div id="alertContainer" class="alert"></div>
+    <footer>
+        <div class="social-media">
+            <a href="https://www.facebook.com/consultorio-veterinario-chimalhua-can">Facebook</a>
+            <a href="https://twitter.com/ChimalhuaCAN">Twitter</a>
+            <a href="https://www.instagram.com/consultorio_chimalhua_can">Instagram</a>
+        </div>
+        <p>&copy; 2024 Consultorio Veterinario "Chimalhua-CAN". Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Modal para reagendar -->
+    <div id="modalReagendar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reagendar Cita</h2>
+                <span class="close" onclick="closeModal('modalReagendar')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="reagendarCitaForm">
+                    <input type="hidden" id="reagendarIndex">
+                    <div class="form-group">
+                        <label for="reagendarDate">Fecha:</label>
+                        <input type="date" id="reagendarDate" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reagendarTime">Hora:</label>
+                        <input type="time" id="reagendarTime" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reagendarServiceType">Tipo de Servicio:</label>
+                        <select id="reagendarServiceType" name="service-type" required>
+                            <option value="consulta">Consulta</option>
+                            <option value="vacunacion">Vacunación</option>
+                            <option value="desparasitacion">Desparasitación</option>
+                            <option value="estetica">Estética</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel" onclick="closeModal('modalReagendar')">Cancelar</button>
+                        <button type="submit" class="submit">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert" id="alert"></div>
 
     <script>
+        const citas = [];
+
+        document.getElementById('agendarCitaForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const petName = document.getElementById('pet-name').value;
+            const serviceType = document.getElementById('service-type').value;
+            if (!isPastDate(date)) {
+                citas.push({ date, time, petName, serviceType });
+                saveCitasToLocalStorage();
+                updateCitasTable();
+                toggleForm();
+                showAlert('Cita agendada correctamente', 'success');
+            } else {
+                showAlert('No se puede agendar una cita en una fecha pasada', 'error');
+            }
+        });
+
+        document.getElementById('reagendarCitaForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const index = document.getElementById('reagendarIndex').value;
+            const date = document.getElementById('reagendarDate').value;
+            const time = document.getElementById('reagendarTime').value;
+            const serviceType = document.getElementById('reagendarServiceType').value;
+            if (!isPastDate(date)) {
+                citas[index].date = date;
+                citas[index].time = time;
+                citas[index].serviceType = serviceType;
+                saveCitasToLocalStorage();
+                updateCitasTable();
+                closeModal('modalReagendar');
+                showAlert('Cita reagendada correctamente', 'success');
+            } else {
+                showAlert('No se puede reagendar una cita en una fecha pasada', 'error');
+            }
+        });
+
         function toggleForm() {
             const formContainer = document.getElementById('formContainer');
             formContainer.classList.toggle('active');
         }
 
-        function agendarCita() {
-            const form = document.getElementById('agendarCitaForm');
-            const date = form.date.value;
-            const time = form.time.value;
-            const petName = form['pet-name'].value;
-            const serviceType = form['service-type'].value;
-
-            // Obtener la tabla de citas agendadas
-            const citasTable = document.getElementById('citasTable').getElementsByTagName('tbody')[0];
-
-            // Validar que no se agende en fechas pasadas
-            const today = new Date();
-            const selectedDate = new Date(date);
-            if (selectedDate < today) {
-                showAlert('No se puede agendar en fechas pasadas', 'error');
-                return;
-            }
-
-            // Agregar la cita a la tabla de citas agendadas
-            const newRow = citasTable.insertRow();
-            const folio = citasTable.rows.length; // Generar un folio único (aunque no ideal para producción)
-            newRow.innerHTML = `
-                <td>${folio}</td>
-                <td>${date}</td>
-                <td>${time}</td>
-                <td>Laura Martines</td>
-                <td>${petName}</td>
-                <td>${serviceType}</td>
-                <td class="action-buttons">
-                    <button class="review" onclick="openModal('${folio}')">Reseñar</button>
-                    <button class="conclude" onclick="concluirCita('${folio}')">Concluir</button>
-                </td>
-            `;
-
-            // Mostrar mensaje de éxito
-            showAlert('Cita agendada correctamente', 'success');
-
-            // Limpiar formulario y ocultar contenedor de formulario
-            form.reset();
-            toggleForm();
+        function updateCitasTable() {
+            const citasTableBody = document.getElementById('citasTableBody');
+            citasTableBody.innerHTML = '';
+            citas.forEach((cita, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${cita.date}</td>
+                    <td>${cita.time}</td>
+                    <td>${cita.petName}</td>
+                    <td>${cita.serviceType}</td>
+                    <td class="action-buttons">
+                        <button class="reagendar" onclick="showReagendarModal(${index})">Reagendar</button>
+                        <button class="cancelar" onclick="cancelarCita(${index})">Cancelar</button>
+                    </td>
+                `;
+                citasTableBody.appendChild(row);
+            });
         }
 
-        function openModal(folio) {
-            document.getElementById('modalFolio').innerText = folio;
-            document.getElementById('reviewModal').style.display = 'block';
+        function showReagendarModal(index) {
+            document.getElementById('reagendarIndex').value = index;
+            document.getElementById('reagendarDate').value = citas[index].date;
+            document.getElementById('reagendarTime').value = citas[index].time;
+            document.getElementById('reagendarServiceType').value = citas[index].serviceType;
+            showModal('modalReagendar');
         }
 
-        function closeModal() {
-            document.getElementById('reviewModal').style.display = 'none';
-            document.getElementById('reviewText').value = '';
-        }
-
-        function submitReview() {
-            const folio = document.getElementById('modalFolio').innerText;
-            const review = document.getElementById('reviewText').value;
-            if (review) {
-                showAlert(`Reseña recibida para el folio ${folio}: ${review}`, 'success');
-                closeModal();
-            } else {
-                showAlert('Por favor, ingrese una reseña', 'error');
+        function cancelarCita(index) {
+            if (confirm('¿Está seguro que desea cancelar esta cita?')) {
+                citas.splice(index, 1);
+                saveCitasToLocalStorage();
+                updateCitasTable();
+                showAlert('Cita cancelada correctamente', 'success');
             }
         }
 
-        function concluirCita(folio) {
-            // Obtener la fila de la cita
-            const citaRow = document.querySelector(`#citasTable tbody tr:nth-child(${folio})`);
-            const citaData = citaRow.getElementsByTagName('td');
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+        }
 
-            // Clonar la fila para agregarla a la tabla de citas concluidas
-            const concluidasTable = document.getElementById('concluidasTable').getElementsByTagName('tbody')[0];
-            const newRow = concluidasTable.insertRow();
-            for (let i = 0; i < citaData.length - 1; i++) { // Excluye el último td con botones de acción
-                const cell = newRow.insertCell(i);
-                cell.textContent = citaData[i].textContent;
-            }
-
-            // Eliminar la fila de la tabla de citas agendadas
-            citaRow.remove();
-
-            // Mostrar mensaje de éxito
-            showAlert(`Cita con folio ${folio} concluida`, 'success');
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
         }
 
         function showAlert(message, type) {
-            const alertContainer = document.getElementById('alertContainer');
-            alertContainer.textContent = message;
-            alertContainer.className = `alert ${type}`;
-            alertContainer.style.display = 'block';
-
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
             setTimeout(() => {
-                alertContainer.style.display = 'none';
+                alert.style.display = 'none';
             }, 3000);
         }
+
+        function isPastDate(date) {
+            const today = new Date();
+            const selectedDate = new Date(date);
+            return selectedDate < today.setHours(0, 0, 0, 0);
+        }
+
+        function saveCitasToLocalStorage() {
+            localStorage.setItem('citas', JSON.stringify(citas));
+        }
+
+        function loadCitasFromLocalStorage() {
+            const storedCitas = localStorage.getItem('citas');
+            if (storedCitas) {
+                citas.push(...JSON.parse(storedCitas));
+            }
+        }
+
+        loadCitasFromLocalStorage();
+        updateCitasTable();
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script>
+    document.getElementById('profile-button').addEventListener('click', function() {
+        var profileContainer = document.getElementById('profile-container');
+        profileContainer.style.display = "block";
+    });
+
+    document.addEventListener('click', function(event) {
+        var profileContainer = document.getElementById('profile-container');
+        var profileButton = document.getElementById('profile-button');
+        if (!profileContainer.contains(event.target) && !profileButton.contains(event.target)) {
+            profileContainer.style.display = "none";
+        }
+    });
+
+    document.getElementById('history-button').onclick = function() {
+        swal({
+            title: "Historia de Citas",
+            content: {
+                element: "div",
+                attributes: {
+                    innerHTML: '<ul>' +
+                        '<li>Fecha: 2024-01-15 | Nombre: Laura Martínez | Hora: 10:00 AM | Mascota: Rex | Servicio: Vacunación</li>' +
+                        '<li>Fecha: 2024-02-20 | Nombre: Laura Martínez | Hora: 11:00 AM | Mascota: Whiskers | Servicio: Chequeo General</li>' +
+                        '<li>Fecha: 2024-03-05 | Nombre: Laura Martínez | Hora: 02:00 PM | Mascota: Rex | Servicio: Desparasitación</li>' +
+                    '</ul>'
+                }
+            },
+            buttons: {
+                confirm: {
+                    text: "Cerrar",
+                    value: true,
+                    visible: true,
+                    className: "btn-primary",
+                    closeModal: true
+                }
+            }
+        });
+    };
+
+    document.getElementById('edit-button').addEventListener('click', function() {
+        swal({
+            title: "Editar Perfil",
+            content: {
+                element: "div",
+                attributes: {
+                    innerHTML: '<form id="edit-profile-form">' +
+                        '<label for="new-email">Correo Electrónico:</label>' +
+                        '<input type="email" id="new-email" name="new-email" value="laura.martinez@example.com"><br>' +
+                        '<label for="new-phone">Número de Teléfono:</label>' +
+                        '<input type="tel" id="new-phone" name="new-phone" value="+52 123 456 7890"><br>' +
+                        '<label for="new-pet">Nueva Mascota:</label>' +
+                        '<input type="text" id="new-pet" name="new-pet" placeholder="Nombre - Tipo"><br>' +
+                    '</form>'
+                }
+            },
+            buttons: {
+                cancel: {
+                    text: "Cancelar",
+                    value: null,
+                    visible: true,
+                    className: "",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Guardar",
+                    value: true,
+                    visible: true,
+                    className: "btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                var newEmail = document.getElementById('new-email').value;
+                var newPhone = document.getElementById('new-phone').value;
+                var newPet = document.getElementById('new-pet').value;
+
+                document.getElementById('email').innerText = newEmail;
+                document.getElementById('phone').innerText = newPhone;
+
+                if (newPet) {
+                    var petList = document.getElementById('pet-list');
+                    var newPetItem = document.createElement('li');
+                    newPetItem.innerText = newPet;
+                    petList.appendChild(newPetItem);
+                }
+
+                swal("¡Perfil Actualizado!", {
+                    icon: "success",
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>
-
