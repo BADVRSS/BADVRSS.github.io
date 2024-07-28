@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.jpeg">
     <title>Consultorio Veterinario "Chimalhua-CAN"</title>
     <style>
         body {
@@ -21,7 +21,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: white;
+            background-color:white;
             color: #333;
             padding: 10px 20px;
         }
@@ -33,11 +33,13 @@
         header .welcome {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         header .welcome img {
             height: 30px;
             margin-left: 10px;
+            border-radius: 50%;
         }
 
         nav {
@@ -232,6 +234,64 @@
             margin-top: auto;
         }
 
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-container .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-container .profile-info h1 {
+            margin: 0;
+        }
+
+        .profile-container .profile-info p {
+            margin: 5px 0;
+        }
+
+        .profile-container .additional-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .profile-container .additional-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-container .additional-info ul li {
+            margin: 5px 0;
+        }
+
+        .profile-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-container button:hover {
+            background-color: #45a049;
+        }
+
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
@@ -262,7 +322,7 @@
             <img src="img/logo.jpeg" alt="Logo">
         </div>
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
-        <div class="welcome">
+        <div class="welcome" id="profile-button">
             Bienvenida: Asistente Maria Garcia
             <img src="img/asis.jpeg" alt="Foto de perfil">
         </div>
@@ -271,6 +331,7 @@
     <nav>
         <ul>
             <li><a href="clienasis.html">Clientes</a></li>
+            <li><a href="asis.html"><span class="icon">🏠</span>Inicio</a></li>
             <li><a href="index.html">Cerrar Sesion</a></li>
         </ul>
     </nav>
@@ -283,162 +344,190 @@
         <div class="form-container" id="form-container">
             <h2>Agregar Producto</h2>
             <input type="text" id="nombre" placeholder="Nombre">
-            <input type="text" id="descripcion" placeholder="Descripción">
-            <input type="number" id="precio_compra" placeholder="Precio de Compra">
-            <input type="number" id="precio_venta" placeholder="Precio de Venta">
+            <input type="text" id="marca" placeholder="Marca">
+            <input type="number" id="precio" placeholder="Precio">
             <input type="number" id="cantidad" placeholder="Cantidad">
-            <input type="text" id="tipo" placeholder="Tipo">
-            <button onclick="agregarProducto()">Agregar Producto</button>
-        </div>
-
-        <div class="edit-form-container" id="edit-form-container">
-            <h2>Editar Precios del Producto</h2>
-            <input type="hidden" id="edit-id-producto">
-            <input type="number" id="edit-precio-compra" placeholder="Nuevo Precio de Compra">
-            <input type="number" id="edit-precio-venta" placeholder="Nuevo Precio de Venta">
-            <button onclick="guardarEdicion()">Guardar Cambios</button>
+            <button onclick="agregarProducto()">Agregar</button>
         </div>
 
         <div class="container">
-            <table id="productosTable">
+            <h2>Productos Disponibles</h2>
+            <table>
                 <thead>
                     <tr>
-                        <th>ID Producto</th>
                         <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio Compra</th>
-                        <th>Precio Venta</th>
+                        <th>Marca</th>
+                        <th>Precio</th>
                         <th>Cantidad</th>
-                        <th>Tipo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Productos serán añadidos aquí dinámicamente -->
-                    <tr>
-                        <td>1</td>
-                        <td>Medicamento A</td>
-                        <td>Para control de pulgas</td>
-                        <td>150</td>
-                        <td>200</td>
-                        <td>50</td>
-                        <td>Medicamento</td>
-                        <td class="actions">
-                            <img src="img/edit.png" alt="Editar" onclick="editarProducto(1)">
-                            <img src="img/delete.png" alt="Eliminar" onclick="eliminarProducto(1)">
-                        </td>
-                    </tr>
+                <tbody id="productos-table-body">
+                    <!-- Aquí se agregarán las filas de los productos -->
                 </tbody>
             </table>
         </div>
     </main>
 
+    <div class="profile-container" id="profile-container">
+        <div class="profile-image">
+            <img src="img/asis.jpeg" alt="Foto de perfil">
+        </div>
+        <div class="profile-info">
+            <h1>Maria Garcia</h1>
+            <p>Asistente</p>
+        </div>
+        <div class="additional-info">
+            <h3>Información Adicional</h3>
+            <ul>
+                <li><strong>Correo:</strong> maria.garcia@example.com</li>
+                <li><strong>Teléfono:</strong> 123-456-7890</li>
+            </ul>
+        </div>
+        <button class="edit-button" onclick="editProfile()">Editar Perfil</button>
+            <br><br>
+        <button onclick="cerrarPerfil()">Cerrar</button>
+    </div>
+
     <footer>
-        <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
-        <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
-        <p>© 2024 Team Master. All Rights Reserved</p>
+        <p>&copy; 2023 Consultorio Veterinario "Chimalhua-CAN". Todos los derechos reservados.</p>
     </footer>
 
     <script>
-        let productos = [
-            { id: 1, nombre: "Medicamento A", descripcion: "Para control de pulgas", precio_compra: 150, precio_venta: 200, cantidad: 50, tipo: "Medicamento" }
-            // Puedes agregar más productos aquí
-        ];
-
         function toggleForm() {
             const formContainer = document.getElementById('form-container');
-            formContainer.style.display = formContainer.style.display === 'block' ? 'none' : 'block';
+            formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
         }
 
         function agregarProducto() {
             const nombre = document.getElementById('nombre').value;
-            const descripcion = document.getElementById('descripcion').value;
-            const precio_compra = document.getElementById('precio_compra').value;
-            const precio_venta = document.getElementById('precio_venta').value;
+            const marca = document.getElementById('marca').value;
+            const precio = document.getElementById('precio').value;
             const cantidad = document.getElementById('cantidad').value;
-            const tipo = document.getElementById('tipo').value;
 
-            if (nombre && descripcion && precio_compra && precio_venta && cantidad && tipo) {
-                const id = productos.length ? productos[productos.length - 1].id + 1 : 1;
-                const nuevoProducto = { id, nombre, descripcion, precio_compra, precio_venta, cantidad, tipo };
-                productos.push(nuevoProducto);
-                agregarProductoATabla(nuevoProducto);
-                mostrarAlerta('Producto agregado correctamente', 'success');
-                toggleForm();
-            } else {
-                mostrarAlerta('Por favor, complete todos los campos', 'error');
-            }
+            const productosTableBody = document.getElementById('productos-table-body');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${nombre}</td>
+                <td>${marca}</td>
+                <td>${precio}</td>
+                <td>${cantidad}</td>
+                <td class="actions">
+                    <img src="img/edit.png" alt="Editar" onclick="editarProducto(this)">
+                    <img src="img/delete.png" alt="Eliminar" onclick="eliminarProducto(this)">
+                </td>
+            `;
+
+            productosTableBody.appendChild(row);
+
+            document.getElementById('nombre').value = '';
+            document.getElementById('marca').value = '';
+            document.getElementById('precio').value = '';
+            document.getElementById('cantidad').value = '';
+
+            showAlert('Producto agregado exitosamente.', 'success');
         }
 
-        function agregarProductoATabla(producto) {
-            const table = document.getElementById('productosTable').getElementsByTagName('tbody')[0];
-            const row = table.insertRow();
+        function editarProducto(element) {
+            const row = element.parentElement.parentElement;
+            const nombre = row.cells[0].textContent;
+            const marca = row.cells[1].textContent;
+            const precio = row.cells[2].textContent;
+            const cantidad = row.cells[3].textContent;
+
+            const editFormContainer = document.createElement('div');
+            editFormContainer.classList.add('edit-form-container');
+            editFormContainer.innerHTML = `
+                <h2>Editar Producto</h2>
+                <input type="text" id="edit-nombre" value="${nombre}">
+                <input type="text" id="edit-marca" value="${marca}">
+                <input type="number" id="edit-precio" value="${precio}">
+                <input type="number" id="edit-cantidad" value="${cantidad}">
+                <button onclick="guardarProductoEditado(this)">Guardar</button>
+                <button onclick="cancelarEdicion(this)">Cancelar</button>
+            `;
+
+            row.innerHTML = '';
+            const cell = document.createElement('td');
+            cell.colSpan = 5;
+            cell.appendChild(editFormContainer);
+            row.appendChild(cell);
+        }
+
+        function guardarProductoEditado(button) {
+            const editFormContainer = button.parentElement;
+            const nombre = editFormContainer.querySelector('#edit-nombre').value;
+            const marca = editFormContainer.querySelector('#edit-marca').value;
+            const precio = editFormContainer.querySelector('#edit-precio').value;
+            const cantidad = editFormContainer.querySelector('#edit-cantidad').value;
+
+            const row = editFormContainer.parentElement.parentElement;
             row.innerHTML = `
-                <td>${producto.id}</td>
-                <td>${producto.nombre}</td>
-                <td>${producto.descripcion}</td>
-                <td>${producto.precio_compra}</td>
-                <td>${producto.precio_venta}</td>
-                <td>${producto.cantidad}</td>
-                <td>${producto.tipo}</td>
+                <td>${nombre}</td>
+                <td>${marca}</td>
+                <td>${precio}</td>
+                <td>${cantidad}</td>
                 <td class="actions">
-                    <img src="edit.png" alt="Editar" onclick="editarProducto(${producto.id})">
-                    <img src="delete.png" alt="Eliminar" onclick="eliminarProducto(${producto.id})">
+                    <img src="img/edit.png" alt="Editar" onclick="editarProducto(this)">
+                    <img src="img/delete.png" alt="Eliminar" onclick="eliminarProducto(this)">
+                </td>
+            `;
+
+            showAlert('Producto editado exitosamente.', 'success');
+        }
+
+        function cancelarEdicion(button) {
+            const editFormContainer = button.parentElement;
+            const row = editFormContainer.parentElement.parentElement;
+            const nombre = editFormContainer.querySelector('#edit-nombre').value;
+            const marca = editFormContainer.querySelector('#edit-marca').value;
+            const precio = editFormContainer.querySelector('#edit-precio').value;
+            const cantidad = editFormContainer.querySelector('#edit-cantidad').value;
+
+            row.innerHTML = `
+                <td>${nombre}</td>
+                <td>${marca}</td>
+                <td>${precio}</td>
+                <td>${cantidad}</td>
+                <td class="actions">
+                    <img src="img/edit.png" alt="Editar" onclick="editarProducto(this)">
+                    <img src="img/delete.png" alt="Eliminar" onclick="eliminarProducto(this)">
                 </td>
             `;
         }
 
-        function editarProducto(id) {
-            const producto = productos.find(p => p.id === id);
-            if (producto) {
-                document.getElementById('edit-id-producto').value = producto.id;
-                document.getElementById('edit-precio-compra').value = producto.precio_compra;
-                document.getElementById('edit-precio-venta').value = producto.precio_venta;
-                document.getElementById('edit-form-container').style.display = 'block';
-            }
+        function eliminarProducto(element) {
+            const row = element.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+
+            showAlert('Producto eliminado exitosamente.', 'success');
         }
 
-        function guardarEdicion() {
-            const id = parseInt(document.getElementById('edit-id-producto').value, 10);
-            const precio_compra = parseFloat(document.getElementById('edit-precio-compra').value);
-            const precio_venta = parseFloat(document.getElementById('edit-precio-venta').value);
-            const producto = productos.find(p => p.id === id);
-            if (producto) {
-                producto.precio_compra = precio_compra;
-                producto.precio_venta = precio_venta;
-                actualizarTabla();
-                mostrarAlerta('Precios actualizados correctamente', 'success');
-                document.getElementById('edit-form-container').style.display = 'none';
-            }
-        }
-
-        function actualizarTabla() {
-            const table = document.getElementById('productosTable').getElementsByTagName('tbody')[0];
-            table.innerHTML = '';
-            productos.forEach(producto => agregarProductoATabla(producto));
-        }
-
-        function eliminarProducto(id) {
-            productos = productos.filter(p => p.id !== id);
-            actualizarTabla();
-            mostrarAlerta('Producto eliminado correctamente', 'success');
-        }
-
-        function mostrarAlerta(mensaje, tipo) {
+        function showAlert(message, type) {
             const alertContainer = document.getElementById('alert-container');
             const alert = document.createElement('div');
-            alert.className = `alert ${tipo}`;
-            alert.textContent = mensaje;
+            alert.classList.add('alert');
+            alert.classList.add(type);
+            alert.textContent = message;
             alertContainer.appendChild(alert);
-            alert.style.display = 'block';
+
             setTimeout(() => {
-                alert.style.display = 'none';
-                alertContainer.removeChild(alert);
-            }, 3000);
+                alert.style.display = 'block';
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                    alertContainer.removeChild(alert);
+                }, 3000);
+            }, 100);
         }
 
-        // Inicializa la tabla con los productos predefinidos
-        productos.forEach(producto => agregarProductoATabla(producto));
+        document.getElementById('profile-button').addEventListener('click', function() {
+            document.getElementById('profile-container').style.display = 'block';
+        });
+
+        function cerrarPerfil() {
+            document.getElementById('profile-container').style.display = 'none';
+        }
     </script>
 </body>
 </html>
