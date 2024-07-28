@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.jpeg">
     <title>Consultorio Veterinario "Chimalhua-CAN"</title>
     <style>
         body {
@@ -209,6 +209,64 @@
                 margin: 10px 0;
             }
         }
+
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-container .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-container .profile-info h1 {
+            margin: 0;
+        }
+
+        .profile-container .profile-info p {
+            margin: 5px 0;
+        }
+
+        .profile-container .additional-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .profile-container .additional-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-container .additional-info ul li {
+            margin: 5px 0;
+        }
+
+        .profile-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -217,7 +275,7 @@
             <img src="img/logo.jpeg" alt="Logo">
         </div>
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
-        <div class="welcome">
+        <div class="welcome" id="profile-button">
             Bienvenido: Vet. Juan Carlos Ortega
             <img src="img/perfil.jpeg" alt="Foto de perfil">
         </div>
@@ -311,8 +369,35 @@
         <p>&copy; 2024 Team Master. All Rights Reserved</p>
     </footer>
 
+    <div class="profile-container" id="profile-container">
+        <div class="profile-image">
+            <img src="img/perfil.jpeg" alt="Foto de perfil">
+        </div>
+        <div class="profile-info">
+            <h1>Juan Carlos Ortega</h1>
+            <p>Veterinario</p>
+        </div>
+        <div class="additional-info">
+            <h3>Información Adicional</h3>
+            <ul>
+                <li><strong>Correo:</strong> juan.ortega@example.com</li>
+                <li><strong>Teléfono:</strong> 123-456-7890</li>
+                <li><strong>Dirección:</strong> Calle Falsa 123, Ciudad</li>
+            </ul>
+        </div>
+        <button onclick="cerrarPerfil()">Cerrar</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        let lastId = 5; // El último ID usado, basado en los registros pre-poblados
+        document.getElementById('profile-button').addEventListener('click', function() {
+            document.getElementById('profile-container').style.display = 'block';
+        });
+
+        function cerrarPerfil() {
+            document.getElementById('profile-container').style.display = 'none';
+        }
+
+        let lastId = 5; 
 
         function toggleForm() {
             const formContainer = document.getElementById('form-container');
@@ -330,7 +415,7 @@
 
             if (tipo && descripcion && precio) {
                 lastId++; // Incrementa el ID
-                const idServicio = lastId.toString().padStart(3, '0'); // Asegura que el ID tenga al menos 3 dígitos
+                const idServicio = lastId.toString().padStart(3, '0'); 
                 const table = document.getElementById('serviciosTable').getElementsByTagName('tbody')[0];
                 const newRow = table.insertRow();
 
