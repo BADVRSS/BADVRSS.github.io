@@ -396,29 +396,36 @@
             <div class="profile-info">
                 <h1>Laura Martínez</h1>
                 <p>Veterinary Consultant</p>
-                <button id="edit-button">Edit Profile</button>
+                <button id="edit-button">Editar Perfil</button>
             </div>
             <div class="additional-info">
-                <p><strong>Correo electrónico:</strong> <span id="email">laura.martinez@example.com</span></p>
-                <p><strong>Número de teléfono:</strong> <span id="phone">+52 123 456 7890</span></p>
-                <p><strong>Mascotas:</strong></p>
-                <ul id="pet-list">
-                    <li>Rex - Perro</li>
-                    <li>Whiskers - Gato</li>
-                </ul>
-                <button id="history-button">Historia</button>
+                <p><strong>Correo electrónico:</strong> <span id="email"><br>laura.martinez@example.com</span></p>
+                <p><strong>Número de teléfono:</strong> <span id="phone"><br>+52 123 456 7890</span></p>
+                <div>
+                    <button id="history-button">Historial</button><br><br>
+                    <button id="add-pet-button" style="margin-left: 10px;">Agregar Mascota</button>
+                </div>
+                <div id="pet-list">
+                    <p><strong>Mascotas:</strong></p>
+                    <ul>
+                        <li>Nombre: Rex | Tipo: Perro | Raza: Labrador</li>
+                        <li>Nombre: Whiskers | Tipo: Gato | Raza: Siames</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
     <footer>
         <div class="social-media">
+            <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p><br>
+            <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p><br>
             <a href="https://www.facebook.com/consultorio-veterinario-chimalhua-can">Facebook</a>
             <a href="https://twitter.com/ChimalhuaCAN">Twitter</a>
             <a href="https://www.instagram.com/consultorio_chimalhua_can">Instagram</a>
         </div>
-        <p>&copy; 2024 Consultorio Veterinario "Chimalhua-CAN". Todos los derechos reservados.</p>
-    </footer>
+        <p>© 2024 Team Master. All Rights Reserved</p>
+        </footer>
 
     <!-- Modal para reagendar -->
     <div id="modalReagendar" class="modal">
@@ -580,99 +587,141 @@
     </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-<script>
-    document.getElementById('profile-button').addEventListener('click', function() {
-        var profileContainer = document.getElementById('profile-container');
-        profileContainer.style.display = "block";
-    });
+    <script>
+        document.getElementById('profile-button').addEventListener('click', function() {
+            var profileContainer = document.getElementById('profile-container');
+            profileContainer.style.display = "block";
+        });
 
-    document.addEventListener('click', function(event) {
-        var profileContainer = document.getElementById('profile-container');
-        var profileButton = document.getElementById('profile-button');
-        if (!profileContainer.contains(event.target) && !profileButton.contains(event.target)) {
-            profileContainer.style.display = "none";
-        }
-    });
-
-    document.getElementById('history-button').onclick = function() {
-        swal({
-            title: "Historia de Citas",
-            content: {
-                element: "div",
-                attributes: {
-                    innerHTML: '<ul>' +
-                        '<li>Fecha: 2024-01-15 | Nombre: Laura Martínez | Hora: 10:00 AM | Mascota: Rex | Servicio: Vacunación</li>' +
-                        '<li>Fecha: 2024-02-20 | Nombre: Laura Martínez | Hora: 11:00 AM | Mascota: Whiskers | Servicio: Chequeo General</li>' +
-                        '<li>Fecha: 2024-03-05 | Nombre: Laura Martínez | Hora: 02:00 PM | Mascota: Rex | Servicio: Desparasitación</li>' +
-                    '</ul>'
-                }
-            },
-            buttons: {
-                confirm: {
-                    text: "Cerrar",
-                    value: true,
-                    visible: true,
-                    className: "btn-primary",
-                    closeModal: true
-                }
+        document.addEventListener('click', function(event) {
+            var profileContainer = document.getElementById('profile-container');
+            var profileButton = document.getElementById('profile-button');
+            if (!profileContainer.contains(event.target) && !profileButton.contains(event.target)) {
+                profileContainer.style.display = "none";
             }
         });
-    };
 
-    document.getElementById('edit-button').addEventListener('click', function() {
-        swal({
-            title: "Editar Perfil",
-            content: {
-                element: "div",
-                attributes: {
-                    innerHTML: '<form id="edit-profile-form">' +
-                        '<label for="new-email">Correo Electrónico:</label>' +
-                        '<input type="email" id="new-email" name="new-email" value="laura.martinez@example.com"><br>' +
-                        '<label for="new-phone">Número de Teléfono:</label>' +
-                        '<input type="tel" id="new-phone" name="new-phone" value="+52 123 456 7890"><br>' +
-                        '<label for="new-pet">Nueva Mascota:</label>' +
-                        '<input type="text" id="new-pet" name="new-pet" placeholder="Nombre - Tipo"><br>' +
-                    '</form>'
-                }
-            },
-            buttons: {
-                cancel: {
-                    text: "Cancelar",
-                    value: null,
-                    visible: true,
-                    className: "",
-                    closeModal: true,
+        document.getElementById('history-button').onclick = function() {
+            swal({
+                title: "Historial de Citas",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<ul>' +
+                            '<li>Fecha: 2024-01-15 | Nombre: Laura Martínez | Hora: 10:00 AM | Mascota: Rex | Servicio: Vacunación</li>' +
+                            '<li>Fecha: 2024-02-20 | Nombre: Laura Martínez | Hora: 11:00 AM | Mascota: Whiskers | Servicio: Chequeo General</li>' +
+                            '<li>Fecha: 2024-03-05 | Nombre: Laura Martínez | Hora: 02:00 PM | Mascota: Rex | Servicio: Desparasitación</li>' +
+                        '</ul>'
+                    }
                 },
-                confirm: {
-                    text: "Guardar",
-                    value: true,
-                    visible: true,
-                    className: "btn-primary",
-                    closeModal: true
+                buttons: {
+                    confirm: {
+                        text: "Cerrar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
                 }
-            }
-        }).then((value) => {
-            if (value) {
-                var newEmail = document.getElementById('new-email').value;
-                var newPhone = document.getElementById('new-phone').value;
-                var newPet = document.getElementById('new-pet').value;
+            });
+        };
 
-                document.getElementById('email').innerText = newEmail;
-                document.getElementById('phone').innerText = newPhone;
-
-                if (newPet) {
-                    var petList = document.getElementById('pet-list');
-                    var newPetItem = document.createElement('li');
-                    newPetItem.innerText = newPet;
-                    petList.appendChild(newPetItem);
+        document.getElementById('add-pet-button').onclick = function() {
+            swal({
+                title: "Agregar Nueva Mascota",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<form id="add-pet-form">' +
+                            '<label for="pet-name">Nombre:</label>' +
+                            '<input type="text" id="pet-name" name="pet-name" placeholder="Nombre de la mascota"><br>' +
+                            '<label for="pet-type">Tipo:</label>' +
+                            '<input type="text" id="pet-type" name="pet-type" placeholder="Tipo de mascota"><br>' +
+                            '<label for="pet-breed">Raza:</label>' +
+                            '<input type="text" id="pet-breed" name="pet-breed" placeholder="Raza de la mascota"><br>' +
+                        '</form>'
+                    }
+                },
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Guardar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
                 }
+            }).then((value) => {
+                if (value) {
+                    var petName = document.getElementById('pet-name').value;
+                    var petType = document.getElementById('pet-type').value;
+                    var petBreed = document.getElementById('pet-breed').value;
 
-                swal("¡Perfil Actualizado!", {
-                    icon: "success",
-                });
-            }
+                    if (petName && petType && petBreed) {
+                        var petList = document.querySelector('#pet-list ul');
+                        var newPet = document.createElement('li');
+                        newPet.textContent = `Nombre: ${petName} | Tipo: ${petType} | Raza: ${petBreed}`;
+                        petList.appendChild(newPet);
+
+                        swal("¡Mascota Agregada!", {
+                            icon: "success",
+                        });
+                    }
+                }
+            });
+        };
+
+        document.getElementById('edit-button').addEventListener('click', function() {
+            swal({
+                title: "Editar Perfil",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<form id="edit-profile-form">' +
+                            '<label for="new-email">Correo Electrónico:</label>' +
+                            '<input type="email" id="new-email" name="new-email" value="laura.martinez@example.com"><br>' +
+                            '<label for="new-phone">Número de Teléfono:</label>' +
+                            '<input type="tel" id="new-phone" name="new-phone" value="+52 123 456 7890"><br>' +
+                        '</form>'
+                    }
+                },
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Guardar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
+                }
+            }).then((value) => {
+                if (value) {
+                    var newEmail = document.getElementById('new-email').value;
+                    var newPhone = document.getElementById('new-phone').value;
+
+                    document.getElementById('email').innerText = newEmail;
+                    document.getElementById('phone').innerText = newPhone;
+
+                    swal("¡Perfil Actualizado!", {
+                        icon: "success",
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
