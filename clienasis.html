@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.jpeg">
     <title>Consultorio Veterinario "Chimalhua-CAN" - Clientes</title>
     <style>
         body {
@@ -32,6 +32,7 @@
         header .welcome {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         header .welcome img {
@@ -187,6 +188,67 @@
             margin-top: auto;
         }
 
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .profile-card {
+            padding: 20px;
+        }
+        .profile-image img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid #007aff;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .profile-info p {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #666;
+        }
+        button {
+            background-color: #007aff;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        .additional-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .additional-info p {
+            margin: 5px 0;
+        }
+        .additional-info ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .additional-info ul li {
+            margin: 5px 0;
+        }
+
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
@@ -217,7 +279,7 @@
             <img src="img/logo.jpeg" alt="Logo">
         </div>
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
-        <div class="welcome">
+        <div class="welcome" id="profile-button">
             Bienvenida: Asistente Maria Garcia
             <img src="img/asis.jpeg" alt="Foto de perfil">
         </div>
@@ -314,10 +376,26 @@
     </main>
 
     <footer>
-        <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
-        <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
         <p>© 2024 Team Master. All Rights Reserved</p>
     </footer>
+
+    <div class="profile-container" id="profile-container">
+        <div class="profile-card">
+            <div class="profile-image">
+                <img src="img/asis.jpeg" alt="Foto de perfil">
+            </div>
+            <div class="profile-info">
+                <h1>Asistente Maria Garcia</h1>
+                <p>Correo: maria.garcia@example.com</p>
+                <p>Teléfono: +52 123 456 7890</p>
+            </div>
+            <div class="additional-info">
+            </div>
+            <button class="edit-button" onclick="editProfile()">Editar Perfil</button>
+            <br><br><br>
+            <button id="close-profile-button">Cerrar</button>
+        </div>
+    </div>
 
     <script>
         let lastId = 5;
@@ -339,7 +417,7 @@
 
             if (nombre && apellido && direccion && telefono) {
                 lastId++; // Incrementa el ID
-                const idCliente = lastId.toString().padStart(3, '0'); // Asegura que el ID tenga al menos 3 dígitos
+                const idCliente = lastId.toString().padStart(3, '0'); 
                 const table = document.getElementById('clientesTable').getElementsByTagName('tbody')[0];
                 const newRow = table.insertRow();
 
@@ -382,6 +460,16 @@
                 alertContainer.removeChild(alert);
             }, 3000);
         }
+
+        document.getElementById('profile-button').addEventListener('click', function() {
+            const profileContainer = document.getElementById('profile-container');
+            profileContainer.style.display = 'block';
+        });
+
+        document.getElementById('close-profile-button').addEventListener('click', function() {
+            const profileContainer = document.getElementById('profile-container');
+            profileContainer.style.display = 'none';
+        });
     </script>
 </body>
 </html>
