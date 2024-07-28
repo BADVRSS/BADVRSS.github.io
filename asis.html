@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultorio Veterinario "Chimalhua-CAN"</title>
+    <link rel="icon" href="img/logo.jpeg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,6 +21,7 @@
             background-color: white;
             color: #333;
             padding: 10px 20px;
+            position: relative;
         }
 
         header .logo img {
@@ -29,11 +31,14 @@
         header .welcome {
             display: flex;
             align-items: center;
+            position: relative;
         }
 
         header .welcome img {
             height: 30px;
             margin-left: 10px;
+            border-radius: 50%;
+            cursor: pointer;
         }
 
         nav {
@@ -86,6 +91,7 @@
             width: 200px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
 
         footer {
@@ -96,6 +102,76 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+        }
+
+        .profile-card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+            object-fit: cover;
+        }
+
+        .profile-card h2 {
+            margin: 10px 0 5px;
+        }
+
+        .profile-card p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .profile-card .edit-button,
+        .profile-card .history-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+        }
+
+        .profile-card .edit-button:hover,
+        .profile-card .history-button:hover {
+            background-color: #0056b3;
+        }
+
+        .additional-info {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .additional-info p {
+            margin: 5px 0;
+        }
+
+        .additional-info ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .additional-info ul li {
+            margin: 5px 0;
         }
 
         @media (max-width: 600px) {
@@ -134,7 +210,7 @@
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
         <div class="welcome">
             Bienvenida: Asistente Maria Garcia
-            <img src="img/asis.jpeg" alt="Foto de perfil">
+            <img src="img/asis.jpeg" alt="Foto de perfil" onclick="toggleProfileCard()">
         </div>
     </header>
 
@@ -148,20 +224,81 @@
 
     <main>
         <div class="container">
-            <div class="box">Consulta General</div>
-            <div class="box">Vacunación</div>
-            <div class="box">Cirugía</div>
+            <div class="box" onclick="showPendingAppointments('Consulta General')">Consulta General</div>
+            <div class="box" onclick="showPendingAppointments('Vacunación')">Vacunación</div>
+            <div class="box" onclick="showPendingAppointments('Cirugía')">Cirugía</div>
         </div>
     </main>
 
     <footer>
-        <p>Ubicación: Av. Saltillo s/n Esq. Calle Clavel Col. Jardines de San Agustín Chimalhuacán Edo. de Méx.</p>
-        <p>Horario: Lunes a Sábado de 10:00 a.m. a 7:00 p.m. y Domingos de 11:00 a.m. a 3:00 p.m.</p>
         <p>© 2024 Team Master. All Rights Reserved</p>
     </footer>
 
+    <div class="profile-card" id="profileCard">
+        <img src="img/asis.jpeg" alt="Foto de perfil">
+        <h2>Laura Martínez</h2>
+        <p>Veterinary Consultant</p>
+        <p>Correo electrónico: laura.martinez@example.com</p>
+        <p>Número de teléfono: +52 123 456 7890</p>
+        <div class="additional-info">
+        </div>
+        <button class="edit-button" onclick="editProfile()">Editar Perfil</button>
+        <button class="close-button" onclick="toggleProfileCard()">Cerrar</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Puedes agregar cualquier funcionalidad adicional con JavaScript aquí
+        function toggleProfileCard() {
+            const profileCard = document.getElementById('profileCard');
+            profileCard.style.display = profileCard.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close the profile card if clicked outside
+        window.onclick = function(event) {
+            const profileCard = document.getElementById('profileCard');
+            if (!event.target.matches('.welcome img')) {
+                if (profileCard.style.display === 'block') {
+                    profileCard.style.display = 'none';
+                }
+            }
+        }
+
+        function editProfile() {
+            alert("Edit Profile clicked");
+        }
+
+        function viewHistory() {
+            alert("View History clicked");
+        }
+
+        function showPendingAppointments(concept) {
+            const pendingAppointments = {
+                'Consulta General': [
+                    { time: '10:00 AM', pet: 'Fido', client: 'Juan Perez' },
+                    { time: '12:00 PM', pet: 'Rex', client: 'Maria Lopez' }
+                ],
+                'Vacunación': [
+                    { time: '09:00 AM', pet: 'Max', client: 'Luis Sanchez' },
+                    { time: '11:00 AM', pet: 'Bella', client: 'Ana Torres' }
+                ],
+                'Cirugía': [
+                    { time: '01:00 PM', pet: 'Luna', client: 'Carlos Jimenez' },
+                    { time: '03:00 PM', pet: 'Rocky', client: 'Elena Diaz' }
+                ]
+            };
+            const appointments = pendingAppointments[concept] || [];
+            let appointmentsHtml = '<ul style="list-style-type: none; padding: 0;">';
+            appointments.forEach(appointment => {
+                appointmentsHtml += `<li style="padding: 5px 0;"><strong>Hora:</strong> ${appointment.time} | <strong>Mascota:</strong> ${appointment.pet} | <strong>Cliente:</strong> ${appointment.client}</li>`;
+            });
+            appointmentsHtml += '</ul>';
+            Swal.fire({
+                title: 'Citas pendientes para ' + concept,
+                html: appointmentsHtml,
+                icon: 'info',
+                confirmButtonText: 'Cerrar'
+            });
+        }
     </script>
 </body>
 </html>
