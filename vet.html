@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="img/logo.jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultorio Veterinario "Chimalhua-CAN"</title>
+    <link rel="icon" href="img/logo.jpeg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +29,7 @@
         header .welcome {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         header .welcome img {
@@ -91,38 +92,21 @@
         footer {
             background-color: #333;
             color: white;
-            text-align: left;
+            text-align: center;
             padding: 20px 10px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             align-items: center;
             position: fixed;
             width: 100%;
             bottom: 0;
         }
-        .footer-info {
-            flex-basis: 30%;
-            margin-bottom: 10px;
+
+        footer p {
+            text-align: center;
+            margin-left: 590px;
         }
-        .footer-social a{
-        text-decoration: none;
-        color: white;
-        }
-        .footer-social {
-            flex-basis: 30%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .footer-social img {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-        }
-        .footer-social span {
-            margin-right: 20px;
-        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 20px;
@@ -133,6 +117,7 @@
                 text-align: center;
             }
         }
+
         @media (max-width: 600px) {
             header {
                 flex-direction: column;
@@ -159,6 +144,64 @@
                 width: 100%;
             }
         }
+
+        .profile-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-container .profile-image img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-container .profile-info h1 {
+            margin: 0;
+        }
+
+        .profile-container .profile-info p {
+            margin: 5px 0;
+        }
+
+        .profile-container .additional-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .profile-container .additional-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-container .additional-info ul li {
+            margin: 5px 0;
+        }
+
+        .profile-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -167,7 +210,7 @@
             <img src="img/logo.jpeg" alt="Logo">
         </div>
         <h1>Consultorio Veterinario "Chimalhua-CAN"</h1>
-        <div class="welcome">
+        <div class="welcome" id="profile-button">
             Bienvenido: Vet. Juan Carlos Ortega
             <img src="img/perfil.jpeg" alt="Foto de perfil">
         </div>
@@ -184,22 +227,76 @@
 
     <main>
         <div class="container">
-            <div class="box">Consulta General</div>
-            <div class="box">Vacunación</div>
-            <div class="box">Cirugía</div>
+            <div class="box" onclick="showPendingAppointments('Consulta General')">Consulta General</div>
+            <div class="box" onclick="showPendingAppointments('Vacunación')">Vacunación</div>
+            <div class="box" onclick="showPendingAppointments('Cirugía')">Cirugía</div>
         </div>
     </main>
 
     <footer>
-        <div class="footer-info">
-        
+        <div class="footer-info"></div>
         <div>
             <p>© 2024 Team Master. All Rights Reserved</p>
         </div>
     </footer>
 
+    <div class="profile-container" id="profile-container">
+        <div class="profile-image">
+            <img src="img/perfil.jpeg" alt="Foto de perfil">
+        </div>
+        <div class="profile-info">
+            <h1>Juan Carlos Ortega</h1>
+            <p>Veterinario</p>
+        </div>
+        <div class="additional-info">
+            <h3>Información Adicional</h3>
+            <ul>
+                <li><strong>Correo:</strong> juan.ortega@example.com</li>
+                <li><strong>Teléfono:</strong> 123-456-7890</li>
+                <li><strong>Dirección:</strong> Calle Falsa 123, Ciudad</li>
+            </ul>
+        </div>
+        <button onclick="cerrarPerfil()">Cerrar</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Puedes agregar cualquier funcionalidad adicional con JavaScript aquí
+        document.getElementById('profile-button').addEventListener('click', function() {
+            document.getElementById('profile-container').style.display = 'block';
+        });
+
+        function cerrarPerfil() {
+            document.getElementById('profile-container').style.display = 'none';
+        }
+
+        function showPendingAppointments(concept) {
+            const pendingAppointments = {
+                'Consulta General': [
+                    { time: '10:00 AM', pet: 'Fido', client: 'Juan Perez' },
+                    { time: '12:00 PM', pet: 'Rex', client: 'Maria Lopez' }
+                ],
+                'Vacunación': [
+                    { time: '09:00 AM', pet: 'Max', client: 'Luis Sanchez' },
+                    { time: '11:00 AM', pet: 'Bella', client: 'Ana Torres' }
+                ],
+                'Cirugía': [
+                    { time: '01:00 PM', pet: 'Luna', client: 'Carlos Jimenez' },
+                    { time: '03:00 PM', pet: 'Rocky', client: 'Elena Diaz' }
+                ]
+            };
+            const appointments = pendingAppointments[concept] || [];
+            let appointmentsHtml = '<ul style="list-style-type: none; padding: 0;">';
+            appointments.forEach(appointment => {
+                appointmentsHtml += `<li style="padding: 5px 0;"><strong>Hora:</strong> ${appointment.time} | <strong>Mascota:</strong> ${appointment.pet} | <strong>Cliente:</strong> ${appointment.client}</li>`;
+            });
+            appointmentsHtml += '</ul>';
+            Swal.fire({
+                title: 'Citas pendientes para ' + concept,
+                html: appointmentsHtml,
+                icon: 'info',
+                confirmButtonText: 'Cerrar'
+            });
+        }
     </script>
 </body>
 </html>
