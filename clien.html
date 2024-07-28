@@ -56,6 +56,7 @@
         .user-info {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
         .user-info img {
             height: 40px;
@@ -187,7 +188,7 @@
                 <div class="title">Consultorio Veterinario "Chimalhua-CAN"</div>
             </div>
             <div class="user-info" id="profile-button">
-                <span>Bienvenida:Laura Martines</span>
+                <span>Bienvenida: Laura Martínez</span>
                 <img src="img/cliente.jpeg" alt="Laura Martínez">
             </div>
         </div>
@@ -224,17 +225,22 @@
             <div class="profile-info">
                 <h1>Laura Martínez</h1>
                 <p>Veterinary Consultant</p>
-                <button id="edit-button">Edit Profile</button>
+                <button id="edit-button">Editar Perfil</button>
             </div>
             <div class="additional-info">
-                <p><strong>Correo electrónico:</strong> <span id="email">laura.martinez@example.com</span></p>
-                <p><strong>Número de teléfono:</strong> <span id="phone">+52 123 456 7890</span></p>
-                <p><strong>Mascotas:</strong></p>
-                <ul id="pet-list">
-                    <li>Rex - Perro</li>
-                    <li>Whiskers - Gato</li>
-                </ul>
-                <button id="history-button">Historia</button>
+                <p><strong>Correo electrónico:</strong> <span id="email"><br>laura.martinez@example.com</span></p>
+                <p><strong>Número de teléfono:</strong> <span id="phone"><br>+52 123 456 7890</span></p>
+                <div>
+                    <button id="history-button">Historial</button><br><br>
+                    <button id="add-pet-button" style="margin-left: 10px;">Agregar Mascota</button>
+                </div>
+                <div id="pet-list">
+                    <p><strong>Mascotas:</strong></p>
+                    <ul>
+                        <li>Nombre: Rex | Tipo: Perro | Raza: Labrador</li>
+                        <li>Nombre: Whiskers | Tipo: Gato | Raza: Siames</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -266,7 +272,7 @@
 
         document.getElementById('history-button').onclick = function() {
             swal({
-                title: "Historia de Citas",
+                title: "Historial de Citas",
                 content: {
                     element: "div",
                     attributes: {
@@ -289,6 +295,58 @@
             });
         };
 
+        document.getElementById('add-pet-button').onclick = function() {
+            swal({
+                title: "Agregar Nueva Mascota",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: '<form id="add-pet-form">' +
+                            '<label for="pet-name">Nombre:</label>' +
+                            '<input type="text" id="pet-name" name="pet-name" placeholder="Nombre de la mascota"><br>' +
+                            '<label for="pet-type">Tipo:</label>' +
+                            '<input type="text" id="pet-type" name="pet-type" placeholder="Tipo de mascota"><br>' +
+                            '<label for="pet-breed">Raza:</label>' +
+                            '<input type="text" id="pet-breed" name="pet-breed" placeholder="Raza de la mascota"><br>' +
+                        '</form>'
+                    }
+                },
+                buttons: {
+                    cancel: {
+                        text: "Cancelar",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "Guardar",
+                        value: true,
+                        visible: true,
+                        className: "btn-primary",
+                        closeModal: true
+                    }
+                }
+            }).then((value) => {
+                if (value) {
+                    var petName = document.getElementById('pet-name').value;
+                    var petType = document.getElementById('pet-type').value;
+                    var petBreed = document.getElementById('pet-breed').value;
+
+                    if (petName && petType && petBreed) {
+                        var petList = document.querySelector('#pet-list ul');
+                        var newPet = document.createElement('li');
+                        newPet.textContent = `Nombre: ${petName} | Tipo: ${petType} | Raza: ${petBreed}`;
+                        petList.appendChild(newPet);
+
+                        swal("¡Mascota Agregada!", {
+                            icon: "success",
+                        });
+                    }
+                }
+            });
+        };
+
         document.getElementById('edit-button').addEventListener('click', function() {
             swal({
                 title: "Editar Perfil",
@@ -300,8 +358,6 @@
                             '<input type="email" id="new-email" name="new-email" value="laura.martinez@example.com"><br>' +
                             '<label for="new-phone">Número de Teléfono:</label>' +
                             '<input type="tel" id="new-phone" name="new-phone" value="+52 123 456 7890"><br>' +
-                            '<label for="new-pet">Nueva Mascota:</label>' +
-                            '<input type="text" id="new-pet" name="new-pet" placeholder="Nombre - Tipo"><br>' +
                         '</form>'
                     }
                 },
@@ -325,17 +381,9 @@
                 if (value) {
                     var newEmail = document.getElementById('new-email').value;
                     var newPhone = document.getElementById('new-phone').value;
-                    var newPet = document.getElementById('new-pet').value;
 
                     document.getElementById('email').innerText = newEmail;
                     document.getElementById('phone').innerText = newPhone;
-
-                    if (newPet) {
-                        var petList = document.getElementById('pet-list');
-                        var newPetItem = document.createElement('li');
-                        newPetItem.innerText = newPet;
-                        petList.appendChild(newPetItem);
-                    }
 
                     swal("¡Perfil Actualizado!", {
                         icon: "success",
@@ -346,4 +394,3 @@
     </script>
 </body>
 </html>
-
