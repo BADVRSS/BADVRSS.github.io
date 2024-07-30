@@ -255,7 +255,7 @@
             <li><a href="citasvet.html">Citas</a></li>
             <li><a href="servet.html">Servicios</a></li>
             <li><a href="inventvet.html">Inventario</a></li>
-            <li><a href="index.html">Cerrar Sesion</a></li>
+            <li><a href="index.html">Cerrar Sesión</a></li>
         </ul>
     </nav>
 
@@ -265,8 +265,12 @@
             <table>
                 <thead>
                     <tr>
+                        <th>ID Mascota</th>
                         <th>Cliente</th>
                         <th>Mascota</th>
+                        <th>Tipo</th>
+                        <th>Edad</th>
+                        <th>Raza</th>
                         <th>Historial de Servicios</th>
                         <th>Acciones</th>
                     </tr>
@@ -308,10 +312,14 @@
     <script>
         let clients = [
             {
+                id: 1,
                 name: 'Laura Martínez',
                 pets: [
                     {
                         name: 'Max',
+                        type: 'Perro',
+                        age: 3,
+                        breed: 'Labrador',
                         services: [
                             'Consulta General - 01/06/2024',
                             'Vacunación - 15/06/2024',
@@ -321,10 +329,14 @@
                 ]
             },
             {
-                name: 'Jessica Perez',
+                id: 2,
+                name: 'Juan Perez',
                 pets: [
                     {
                         name: 'Fido',
+                        type: 'Perro',
+                        age: 2,
+                        breed: 'Beagle',
                         services: [
                             'Consulta General - 05/06/2024',
                             'Vacunación - 18/06/2024'
@@ -332,6 +344,9 @@
                     },
                     {
                         name: 'Luna',
+                        type: 'Gato',
+                        age: 1,
+                        breed: 'Siames',
                         services: [
                             'Cirugía - 10/07/2024'
                         ]
@@ -339,10 +354,14 @@
                 ]
             },
             {
+                id: 3,
                 name: 'Maria Lopez',
                 pets: [
                     {
                         name: 'Rex',
+                        type: 'Perro',
+                        age: 5,
+                        breed: 'Pastor Alemán',
                         services: [
                             'Consulta General - 07/06/2024'
                         ]
@@ -350,10 +369,14 @@
                 ]
             },
             {
+                id: 4,
                 name: 'Luis Sanchez',
                 pets: [
                     {
                         name: 'Max',
+                        type: 'Gato',
+                        age: 1,
+                        breed: 'Persa',
                         services: [
                             'Vacunación - 09/06/2024',
                             'Desparasitación - 23/06/2024'
@@ -362,10 +385,14 @@
                 ]
             },
             {
+                id: 5,
                 name: 'Ana Torres',
                 pets: [
                     {
                         name: 'Bella',
+                        type: 'Perro',
+                        age: 2,
+                        breed: 'Chihuahua',
                         services: [
                             'Vacunación - 11/06/2024'
                         ]
@@ -373,10 +400,14 @@
                 ]
             },
             {
+                id: 6,
                 name: 'Carlos Jimenez',
                 pets: [
                     {
                         name: 'Luna',
+                        type: 'Gato',
+                        age: 3,
+                        breed: 'Bengalí',
                         services: [
                             'Cirugía - 01/07/2024'
                         ]
@@ -384,10 +415,14 @@
                 ]
             },
             {
-                name: 'Jazmine Diaz',
+                id: 7,
+                name: 'Elena Diaz',
                 pets: [
                     {
                         name: 'Rocky',
+                        type: 'Perro',
+                        age: 4,
+                        breed: 'Bulldog',
                         services: [
                             'Cirugía - 03/07/2024'
                         ]
@@ -404,6 +439,10 @@
                 client.pets.forEach((pet, petIndex) => {
                     let clientRow = document.createElement('tr');
 
+                    let petIdCell = document.createElement('td');
+                    petIdCell.textContent = client.id;
+                    clientRow.appendChild(petIdCell);
+
                     let clientNameCell = document.createElement('td');
                     clientNameCell.textContent = client.name;
                     clientRow.appendChild(clientNameCell);
@@ -411,6 +450,18 @@
                     let petNameCell = document.createElement('td');
                     petNameCell.textContent = pet.name;
                     clientRow.appendChild(petNameCell);
+
+                    let petTypeCell = document.createElement('td');
+                    petTypeCell.textContent = pet.type;
+                    clientRow.appendChild(petTypeCell);
+
+                    let petAgeCell = document.createElement('td');
+                    petAgeCell.textContent = pet.age;
+                    clientRow.appendChild(petAgeCell);
+
+                    let petBreedCell = document.createElement('td');
+                    petBreedCell.textContent = pet.breed;
+                    clientRow.appendChild(petBreedCell);
 
                     let serviceHistoryCell = document.createElement('td');
                     let serviceHistoryButton = document.createElement('button');
@@ -438,18 +489,39 @@
         }
 
         function editPet(clientIndex, petIndex) {
+            const pet = clients[clientIndex].pets[petIndex];
             Swal.fire({
-                title: 'Editar Nombre de la Mascota',
-                input: 'text',
-                inputLabel: 'Nuevo nombre para la mascota:',
-                inputValue: clients[clientIndex].pets[petIndex].name,
+                title: 'Editar Mascota',
+                html:
+                    `<label for="pet-name">Nombre:</label>
+                    <input id="pet-name" class="swal2-input" value="${pet.name}">
+                    <label for="pet-type">Tipo:</label>
+                    <input id="pet-type" class="swal2-input" value="${pet.type}">
+                    <label for="pet-age">Edad:</label>
+                    <input id="pet-age" class="swal2-input" type="number" value="${pet.age}">
+                    <label for="pet-breed">Raza:</label>
+                    <input id="pet-breed" class="swal2-input" value="${pet.breed}">`,
+                focusConfirm: false,
                 showCancelButton: true,
-                confirmButtonText: 'Guardar',
-                cancelButtonText: 'Cancelar',
-                preConfirm: (newName) => {
-                    if (newName) {
-                        clients[clientIndex].pets[petIndex].name = newName;
+                preConfirm: () => {
+                    const newName = document.getElementById('pet-name').value;
+                    const newType = document.getElementById('pet-type').value;
+                    const newAge = document.getElementById('pet-age').value;
+                    const newBreed = document.getElementById('pet-breed').value;
+
+                    if (newName && newType && newAge && newBreed) {
+                        pet.name = newName;
+                        pet.type = newType;
+                        pet.age = newAge;
+                        pet.breed = newBreed;
                         displayClients();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Datos Actualizados',
+                            text: 'La información de la mascota ha sido actualizada correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     }
                 }
             });
@@ -472,11 +544,13 @@
                         clients.splice(clientIndex, 1);
                     }
                     displayClients();
-                    Swal.fire(
-                        'Eliminado!',
-                        'La mascota ha sido eliminada.',
-                        'success'
-                    );
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro Borrado',
+                        text: 'La mascota ha sido eliminada correctamente.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
             });
         }
@@ -508,4 +582,3 @@
     </script>
 </body>
 </html>
-
